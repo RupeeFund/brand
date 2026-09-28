@@ -9,7 +9,7 @@ This file is a summary. The full guidelines, with examples and the files to down
 | Text       | The Rupee Fund. Always "The", with a capital "T" in a sentence too: "donate to The Rupee Fund". |
 | Modifier   | Do not use the name as a modifier. Write "roles in The Rupee Fund", not "Rupee Fund roles".     |
 | Logo       | The logo artwork only. Do not type the logo as text.                                            |
-| Short name | `RupeeFund`. Where a web manifest `short_name` or an app label needs it, `TRF` is allowed.      |
+| Short name | `RupeeFund`. Where a web manifest `short_name` or an app label needs it, you can use `TRF`.     |
 | Code       | `RupeeFund`                                                                                     |
 
 ## Logo
