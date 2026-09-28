@@ -4,12 +4,21 @@ The site at `brand.rupeefund.org` is an assets-only Cloudflare Worker, `rupeefun
 
 ## 1. The branch model
 
-| Branch | Site                  | Trigger                 |
-| ------ | --------------------- | ----------------------- |
-| `main` | none                  | never                   |
-| `live` | `brand.rupeefund.org` | the maintainer, by hand |
+| Branch       | Site                                                          | Trigger   |
+| ------------ | ------------------------------------------------------------- | --------- |
+| `main`       | `brand.rupeefund.org`                                         | each push |
+| other branch | a Preview, `<branch>-rupeefund-brand.<subdomain>.workers.dev` | each push |
 
-Cloudflare Workers Builds watches `live`. Set its build command to `pnpm run build` and its deploy command to `npx wrangler deploy`. Keep non-production branch builds off.
+`main` is the only branch that goes out. Unlike the site repository, this repository has no `live` branch.
+
+Set these values in Cloudflare Workers Builds:
+
+- Production branch: `main`.
+- Build command: `pnpm run build`.
+- Deploy command: `npx wrangler deploy`.
+- Preview builds: on. Preview command: `npx wrangler preview`.
+
+Workers Builds adds the Preview URL to the pull request as a comment. A `workers.dev` Preview sends `X-Robots-Tag: noindex`, so search engines do not index it.
 
 Do not run `wrangler deploy` by hand. It uploads whatever `dist` holds.
 
@@ -22,13 +31,10 @@ pnpm test:e2e     # Playwright against the local build
 pnpm wrangler dev # serve dist as the Worker does
 ```
 
-## 3. How to promote
+Then open a pull request and check its Preview URL.
 
-Make sure the checks pass on the commit. Then fast-forward `live`:
+## 3. How to release
 
-```sh
-git fetch origin
-git push origin <sha>:live
-```
+Merge the pull request into `main`. The push to `main` deploys the site.
 
-Do not force the push. To go back, run `pnpm wrangler rollback`. Then add a revert commit to `main` and promote it. If you do not, the next promote deploys the bad change again.
+To go back, run `pnpm wrangler rollback`. Then add a revert commit to `main`. If you do not, the next push to `main` deploys the bad change again.
