@@ -31,9 +31,25 @@ This file is a summary. The full guidelines, with examples and the files to down
 
 Brand green (`#08b74f`) on white is 2.66:1. Do not use it for text or controls. Use deep green (`#057a33`) for text in green. The logo is an exception.
 
+| Use          | Rule                                                                                                     |
+| ------------ | -------------------------------------------------------------------------------------------------------- |
+| Text on dark | On `ink`, use `paper` for text and `white` for links.                                                    |
+| Errors       | Use `error` (`#c62828`) for error text and error icons. It passes 4.5:1 on `white`, `card` and `paper`.  |
+| Controls     | Give an input or a control a boundary of 3:1 or more. Use `border` (`#858585`). Dividers can be lighter. |
+| Focus        | Show a solid 2 px ring. Use `brand-fg` on light surfaces and `white` on `ink`.                           |
+
 ## Type
 
-Use [Inter](https://rsms.me/inter/). Headings use SemiBold (600) with letter spacing −0.033 em. Text uses Regular (400) with line height 1.6.
+Use [Inter](https://rsms.me/inter/) 4.
+
+| Style    | Rule                                                                                            |
+| -------- | ----------------------------------------------------------------------------------------------- |
+| Headings | SemiBold (600). Letter spacing −0.033 em.                                                       |
+| Text     | Regular (400). Line height 1.6.                                                                 |
+| Medium   | Medium (500) for navigation, links in lists and short interface text. Not for text or headings. |
+| Labels   | SemiBold (600), 0.8125 rem, uppercase. Letter spacing +0.12 em.                                 |
+| Features | Turn on `cv11` (single-storey a) and `ss01` (open digits) for all text.                         |
+| Figures  | Use `tabular-nums` for numbers that change, such as amounts, counts and dates.                  |
 
 ## Voice
 

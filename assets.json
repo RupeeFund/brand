@@ -68,6 +68,12 @@
     },
     {
       "master": "lockup",
+      "variant": "dark",
+      "format": "svg",
+      "output": "exports/web/logo-dark.svg"
+    },
+    {
+      "master": "lockup",
       "format": "png",
       "size": 1200,
       "canvas": {

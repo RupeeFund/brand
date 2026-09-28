@@ -56,9 +56,14 @@ a {
 }
 
 :focus-visible {
-  outline: 3px solid var(--color-brand-fg);
+  outline: 2px solid var(--color-brand-fg);
   outline-offset: 3px;
   border-radius: 2px;
+}
+
+.tone-ink :focus-visible,
+.footer :focus-visible {
+  outline-color: var(--color-white);
 }
 
 .skip {
@@ -537,7 +542,8 @@ code {
   border-radius: 50%;
   background:
     linear-gradient(45deg, transparent 45%, var(--color-white) 45% 55%, transparent 55%),
-    linear-gradient(-45deg, transparent 45%, var(--color-white) 45% 55%, transparent 55%), #c62828;
+    linear-gradient(-45deg, transparent 45%, var(--color-white) 45% 55%, transparent 55%),
+    var(--color-error);
 }
 
 .dont-stretch {
@@ -794,6 +800,38 @@ code {
 .type-body {
   font-size: 1.125rem;
   color: var(--color-ink) !important;
+}
+
+.type-rules .eyebrow {
+  color: var(--color-brand-fg);
+}
+
+.type-medium {
+  font-weight: 500;
+  color: var(--color-ink) !important;
+}
+
+.type-figures {
+  font-size: 1.5rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-ink) !important;
+}
+
+.rules {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+  gap: 1.5rem 2rem;
+  margin: 0 0 2.5rem;
+}
+
+.rules dt {
+  font-weight: 600;
+}
+
+.rules dd {
+  margin: 0.25rem 0 0;
+  color: var(--color-ink-2);
 }
 
 .voice {

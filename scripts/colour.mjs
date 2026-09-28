@@ -15,8 +15,15 @@ const PAIRS = [
   ["text", "brand-900", "brand-50"],
   ["text", "white", "brand-fg"],
   ["text", "white", "ink"],
+  ["text", "paper", "ink"],
+  ["text", "error", "white"],
+  ["text", "error", "card"],
+  ["text", "error", "paper"],
   ["graphic", "ink", "brand"],
   ["graphic", "brand", "ink"],
+  ["graphic", "border", "white"],
+  ["graphic", "border", "card"],
+  ["graphic", "border", "paper"],
 ];
 
 function luminance(hex) {

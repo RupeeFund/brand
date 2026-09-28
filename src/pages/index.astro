@@ -35,10 +35,12 @@ const swatches = [
   ["paper", "Paper", "The page background."],
   ["card", "Card", "Cards on paper."],
   ["white", "White", "Surfaces, and the wordmark on dark backgrounds."],
+  ["error", "Error", "Error text and error icons."],
+  ["border", "Border", "Boundaries of inputs and controls."],
 ].map(([token, name, use]) => ({ token, name, use, hex: colours.get(`color.${token}`) }));
-const swatchGroups = [swatches.slice(0, 5), swatches.slice(5)];
+const swatchGroups = [swatches.slice(0, 5), swatches.slice(5, 11), swatches.slice(11)];
 const pairs = contrastPairs(colours);
-const dark = new Set(["brand-fg", "brand-900", "ink", "ink-2", "ink-3"]);
+const dark = new Set(["brand-fg", "brand-900", "ink", "ink-2", "ink-3", "error"]);
 
 const voice = [
   ["Trustworthy", "Say what happens to the money. Give numbers and dates. Do not promise more."],
@@ -84,6 +86,7 @@ const downloads = [
       ["web/favicon.ico", "Favicon, ICO 16, 32, 48"],
       ["web/apple-touch-icon.png", "Apple touch icon, 180 × 180"],
       ["web/logo.svg", "Header logo, SVG"],
+      ["web/logo-dark.svg", "Header logo for dark backgrounds, SVG"],
       ["web/og-card.png", "Social card, 1200 × 630"],
     ],
   },
@@ -370,6 +373,27 @@ const downloads = [
         Text needs a contrast of 4.5:1 or more. Shapes and icons need 3:1 or more (WCAG 2.2). Brand
         green on white is 2.66:1, so do not use it for text or controls. The logo is an exception.
       </p>
+      <dl class="rules reveal">
+        <div>
+          <dt>Text on dark</dt>
+          <dd>On ink, use paper for text and white for links.</dd>
+        </div>
+        <div>
+          <dt>Errors</dt>
+          <dd>Use error for error text and error icons.</dd>
+        </div>
+        <div>
+          <dt>Controls</dt>
+          <dd>
+            Give an input or a control a boundary of 3:1 or more. Use border. Dividers can be
+            lighter.
+          </dd>
+        </div>
+        <div>
+          <dt>Focus</dt>
+          <dd>Show a solid 2 px ring. Use deep green on light surfaces and white on ink.</dd>
+        </div>
+      </dl>
       <ul class="pairs">
         {
           pairs.map((p) => (
@@ -413,6 +437,31 @@ const downloads = [
               Your contribution goes to the projects that the community nominates and votes for.
             </dd>
             <dd>Inter Regular (400). Line height 1.6.</dd>
+          </div>
+          <div class="reveal">
+            <dt>Medium</dt>
+            <dd class="type-medium">Sections · Downloads · Colour</dd>
+            <dd>
+              Inter Medium (500) for navigation, links in lists and short interface text. Not for
+              text or headings.
+            </dd>
+          </div>
+          <div class="reveal">
+            <dt>Labels</dt>
+            <dd class="eyebrow">Brand guidelines</dd>
+            <dd>Inter SemiBold (600), 0.8125 rem, uppercase. Letter spacing +0.12 em.</dd>
+          </div>
+          <div class="reveal">
+            <dt>Features</dt>
+            <dd class="type-body">a 0123456789</dd>
+            <dd>Turn on <code>cv11</code> (single-storey a) and <code>ss01</code> (open digits) for all text.</dd>
+          </div>
+          <div class="reveal">
+            <dt>Figures</dt>
+            <dd class="type-figures">₹1,111<br />₹8,420</dd>
+            <dd>
+              Use <code>tabular-nums</code> for numbers that change, such as amounts, counts and dates.
+            </dd>
           </div>
           <div class="reveal">
             <dt>Logo</dt>
