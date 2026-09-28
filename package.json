@@ -7,10 +7,10 @@
   "author": "FOSS United Community",
   "type": "module",
   "scripts": {
-    "build": "node scripts/build.mjs",
-    "check": "node scripts/lint-masters.mjs && node scripts/fidelity.mjs && node scripts/contrast.mjs",
-    "site:dev": "astro dev",
-    "site:build": "astro build"
+    "dev": "astro dev",
+    "build": "node scripts/exports.mjs && astro build",
+    "preview": "astro preview",
+    "check": "node scripts/lint-masters.mjs && node scripts/fidelity.mjs && node scripts/contrast.mjs"
   },
   "devDependencies": {
     "@resvg/resvg-js": "^2.6.2",
