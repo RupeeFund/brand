@@ -235,8 +235,11 @@ a {
 
 .footer {
   display: grid;
-  gap: 1rem;
-  padding: 4rem var(--gutter);
+  gap: 2.5rem;
+  justify-items: center;
+  padding: 2.5rem var(--gutter);
+  border-top: 2px solid var(--color-brand);
+  text-align: center;
   background: var(--color-ink);
   color: var(--color-paper);
   font-size: 0.9375rem;
@@ -965,10 +968,51 @@ code {
   color: var(--color-ink-3);
 }
 
+.footer-head {
+  display: grid;
+  gap: 1rem;
+  justify-items: center;
+}
+
+.footer-head a {
+  display: block;
+}
+
 .footer-logo {
-  width: 8.5rem;
-  height: auto;
-  margin-bottom: 1rem;
+  display: block;
+  height: 5rem;
+  width: auto;
+}
+
+.footer-base {
+  display: grid;
+  gap: 1rem;
+  justify-items: center;
+  width: 100%;
+  padding-top: 1.5rem;
+  border-top: 1px solid color-mix(in srgb, var(--color-white) 10%, transparent);
+  font-size: 0.875rem;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.25rem 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footer-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
 }
 
 .not-found {
