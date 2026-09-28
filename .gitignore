@@ -8,3 +8,4 @@ dist
 !AGENTS.md
 test-results
 playwright-report
+.wrangler
