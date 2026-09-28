@@ -14,6 +14,7 @@ const clip = `lockup-clip-${id}`;
 ---
 
 <svg class="lockup" viewBox={viewBox} role="img" aria-label={label}>
+  <rect class="lockup-ground" y={block.height} width={Number(width) * 1.12} height="18"></rect>
   <rect class="lockup-block" width={block.width} height={block.height} fill="var(--color-brand)"
   ></rect>
   <path class="lockup-rupee" d={rupee.d} fill="var(--color-ink)"></path>

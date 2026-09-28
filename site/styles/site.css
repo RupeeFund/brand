@@ -21,7 +21,6 @@
 }
 
 html {
-  scroll-behavior: smooth;
   scroll-padding-top: 5rem;
 }
 
@@ -113,7 +112,6 @@ a {
 .nav-links a {
   text-decoration: none;
   background: linear-gradient(var(--color-brand), var(--color-brand)) 0 100% / 0 2px no-repeat;
-  transition: background-size 300ms var(--ease-out);
   padding-bottom: 2px;
 }
 
@@ -147,14 +145,8 @@ a {
   overflow: visible;
 }
 
-.hero-ground {
-  position: absolute;
-  left: 0;
-  right: -12%;
-  bottom: calc(100% * 20 / 2340);
-  height: 2px;
-  background: var(--color-ink);
-  transform-origin: 0 50%;
+.lockup-ground {
+  fill: var(--color-ink);
   opacity: 0.12;
 }
 
@@ -215,14 +207,6 @@ a {
   border-radius: 999px;
   font-weight: 600;
   text-decoration: none;
-  transition:
-    transform 300ms var(--ease-out),
-    background-color 200ms,
-    box-shadow 300ms var(--ease-out);
-}
-
-.button:hover {
-  transform: translateY(-2px);
 }
 
 .button-primary {
@@ -241,14 +225,6 @@ a {
 
 .button-quiet:hover {
   background: var(--color-white);
-}
-
-.button .arrow {
-  transition: transform 300ms var(--ease-out);
-}
-
-.button:hover .arrow {
-  transform: translateY(2px);
 }
 
 .footer {
@@ -270,7 +246,36 @@ a {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .hero-ground {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  .nav-links a {
+    transition: background-size 300ms var(--ease-out);
+  }
+
+  .button {
+    transition:
+      transform 300ms var(--ease-out),
+      background-color 200ms,
+      box-shadow 300ms var(--ease-out);
+  }
+
+  .button:hover {
+    transform: translateY(-2px);
+  }
+
+  .button .arrow {
+    transition: transform 300ms var(--ease-out);
+  }
+
+  .button:hover .arrow {
+    transform: translateY(2px);
+  }
+
+  .lockup-ground {
+    transform-box: fill-box;
+    transform-origin: 0 50%;
     animation: draw 900ms var(--ease-out) both;
   }
 

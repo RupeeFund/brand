@@ -8,7 +8,8 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
-const tokens = [...tokenColours()]
+const colours = tokenColours();
+const tokens = [...colours]
   .map(([name, hex]) => `--${name.replace(".", "-")}: ${hex};`)
   .join(" ");
 const og = new URL("/web/og-card.png", Astro.site);
@@ -19,7 +20,7 @@ const og = new URL("/web/og-card.png", Astro.site);
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f0f0f0" />
+    <meta name="theme-color" content={colours.get("color.paper")} />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="icon" href="/web/favicon.ico" sizes="48x48" />

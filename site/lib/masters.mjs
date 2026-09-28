@@ -7,7 +7,7 @@ export function readMaster(name) {
   const element = (id) => svg.match(new RegExp(`<[a-z]+ [^>]*\\bid="${id}"[^>]*/>`))?.[0];
   const part = (id) => {
     const tag = element(id);
-    return tag && { d: attribute(tag, "d"), transform: attribute(tag, "transform") };
+    return tag && { d: attribute(tag, "d") };
   };
   const block = element("block");
   return {
@@ -37,8 +37,9 @@ function xRange(subpath) {
 
 export function splitLetters(d) {
   const letters = [];
-  for (const subpath of d.split(/(?=M)/)) {
-    const [min, max] = xRange(subpath);
+  const subpaths = d.split(/(?=M)/).map((subpath) => [subpath, ...xRange(subpath)]);
+  subpaths.sort((a, b) => b[2] - b[1] - (a[2] - a[1]));
+  for (const [subpath, min, max] of subpaths) {
     const outer = letters.find((l) => min >= l.min && max <= l.max);
     if (outer) outer.d += subpath;
     else letters.push({ d: subpath, min, max });
