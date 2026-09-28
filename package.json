@@ -8,10 +8,13 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",
-    "check": "node scripts/lint-masters.mjs && node scripts/fidelity.mjs && node scripts/contrast.mjs"
+    "check": "node scripts/lint-masters.mjs && node scripts/fidelity.mjs && node scripts/contrast.mjs",
+    "site:dev": "astro dev",
+    "site:build": "astro build"
   },
   "devDependencies": {
-    "@resvg/resvg-js": "^2.6.2"
+    "@resvg/resvg-js": "^2.6.2",
+    "astro": "^7.3.5"
   },
   "engines": {
     "node": ">=24.0.0"

@@ -11,7 +11,7 @@ This repository keeps the brand of The Rupee Fund: vector masters, design tokens
 | `assets.json`                      | The export manifest: source, variant, size, format, output path         |
 | `scripts/`                         | The build and the checks                                                |
 | `exports/`                         | Build output only                                                       |
-| `exports/preview.html`             | Each export up to 256 px on the backgrounds it is for, for review       |
+| `site/`                            | The brand website (Astro). `exports/` is its public directory.          |
 | `GUIDELINES.md`                    | Usage rules                                                             |
 | `logo/`, `icon/`, `illustrations/` | Seed copies from the site. `logo/logo-rupee-fund.png` is the reference. |
 
@@ -27,5 +27,6 @@ A directory comes into the tree with its first file.
 - Write "The Rupee Fund" in text. Use `₹fund` only in the logo. Use `RupeeFund` only for code, repositories and handles.
 - Every credit and copyright line names FOSS United Community.
 - The assets are under CC BY-ND 4.0 (`LICENSE`).
-- Show each visual change to the maintainer as a page in a browser.
+- Show each visual change to the maintainer as a page in a browser. Run `pnpm site:dev`.
+- The site works without JavaScript. Motion is CSS only, and `prefers-reduced-motion: reduce` turns it off.
 - Write docs in ASD-STE100.

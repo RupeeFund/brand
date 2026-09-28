@@ -59,82 +59,19 @@ function ico(images) {
 }
 
 rmSync(EXPORTS, { recursive: true, force: true });
-const written = [];
-const write = (path, data, meta) => {
+const write = (path, data) => {
   mkdirSync(dirname(path), { recursive: true });
   writeFileSync(path, data);
-  written.push({ path, ...meta });
 };
 
-for (const entry of manifest.exports) {
-  const { master, variant = "light", format, size, sizes, canvas, output } = entry;
-  const { on, ...fills } = manifest.variants[variant];
+for (const { master, variant, format, size, sizes, canvas, output } of manifest.exports) {
+  const fills = variant ? manifest.variants[variant] : {};
   const art = recolour(readFileSync(`masters/${master}.svg`, "utf8"), fills);
   const svg = canvas ? compose(art, size, canvas) : art;
-  const meta = { master, variant, format, size };
-  if (format === "svg") write(output, svg, meta);
-  else if (format === "png") write(output, png(svg, size), meta);
-  else if (format === "ico")
-    write(output, ico(sizes.map((s) => ({ size: s, data: png(svg, s) }))), meta);
+  if (format === "svg") write(output, svg);
+  else if (format === "png") write(output, png(svg, size));
+  else if (format === "ico") write(output, ico(sizes.map((s) => ({ size: s, data: png(svg, s) }))));
   else throw new Error(`unknown format: ${format}`);
 }
 
-const shown = (file) => file.format === "svg" || file.format === "png";
-const src = (file) => file.path.slice(EXPORTS.length + 1);
-const figure = (images, bg, label) =>
-  `<figure style="background:${colour(bg)}">${images}<figcaption>${label}</figcaption></figure>`;
-const image = (file, width = Math.min(file.size, 600)) =>
-  `<img src="${src(file)}"${width ? ` width="${width}"` : ""} alt="">`;
-const exportFigure = (file, bg) =>
-  figure(image(file), bg, `${file.format === "svg" ? "SVG" : `${file.size} px`} on ${bg}`);
-const groups = Object.groupBy(written.filter(shown), (f) => `${f.master} · ${f.variant}`);
-const sections = Object.entries(groups).map(([title, files]) => {
-  const figures = manifest.variants[files[0].variant].on.flatMap((bg) =>
-    files.map((f) => exportFigure(f, bg)),
-  );
-  return `<section><h2>${title}</h2>\n<div class="row">\n${figures.join("\n")}\n</div></section>`;
-});
-const faviconSvg = written.find((f) => f.path.endsWith("favicon.svg"));
-const favicons = [16, 32].map((s) => figure(image(faviconSvg, s), "white", `${s} px`));
-const favicon = src(written.find((f) => f.format === "ico"));
-const list = written.map((f) => `<li><a href="${src(f)}">${f.path}</a></li>`);
-const caption = [
-  "font-size: 12px",
-  "margin-top: .5rem",
-  "padding: 0 .25rem",
-  `background: ${colour("white")}`,
-  `color: ${colour("ink-3")}`,
-].join("; ");
-
-write(
-  `${EXPORTS}/preview.html`,
-  `<!doctype html>
-<html lang="en">
-<meta charset="utf-8">
-<title>The Rupee Fund brand exports</title>
-<link rel="icon" href="${favicon}">
-<style>
-body { font: 16px/1.5 system-ui, sans-serif; margin: 2rem; color: ${colour("ink")}; }
-.row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-end; }
-figure { margin: 0; padding: 1rem; border: 1px solid #ddd; }
-figure img[src$=".svg"] { width: 240px; }
-figcaption { ${caption}; }
-.pixel img { image-rendering: pixelated; margin-right: 1rem; }
-</style>
-<h1>The Rupee Fund brand exports</h1>
-<p>The build makes every file on this page. Do not edit them by hand.</p>
-<section><h2>Favicon at real size</h2>
-<div class="row pixel">
-${favicons.join("\n")}
-</div></section>
-${sections.join("\n")}
-<section><h2>All files</h2>
-<ul>
-${list.join("\n")}
-</ul></section>
-</html>
-`,
-  { format: "html" },
-);
-
-console.log(`${written.length} files in ${EXPORTS}/`);
+console.log(`${manifest.exports.length} files in ${EXPORTS}/`);

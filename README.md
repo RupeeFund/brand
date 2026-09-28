@@ -31,7 +31,7 @@ The site defines these tokens in `src/index.css` as `--color-<token>`.
 
 ## Type
 
-The site uses [Inter](https://rsms.me/inter/). This repository does not keep the font files.
+The logo and the site use [Inter](https://rsms.me/inter/). `site/fonts/` keeps `InterVariable.woff2` from the Inter 4.1 release, with its licence (SIL Open Font License 1.1).
 
 ## Licence
 
