@@ -1,13 +1,13 @@
 # Deployment
 
-The site at `brand.rupeefund.org` is an assets-only Cloudflare Worker, `rupeefund-brand`. `wrangler.jsonc` holds its configuration.
+The site at `brand.rupeefund.org` is an assets-only Cloudflare Worker, `brand`. `wrangler.jsonc` holds its configuration.
 
 ## 1. The branch model
 
-| Branch       | Site                                                          | Trigger   |
-| ------------ | ------------------------------------------------------------- | --------- |
-| `main`       | `brand.rupeefund.org`                                         | each push |
-| other branch | a Preview, `<branch>-rupeefund-brand.<subdomain>.workers.dev` | each push |
+| Branch       | Site                                                | Trigger   |
+| ------------ | --------------------------------------------------- | --------- |
+| `main`       | `brand.rupeefund.org`                               | each push |
+| other branch | a Preview, `<branch>-brand.<subdomain>.workers.dev` | each push |
 
 `main` is the only branch that goes out. Unlike the site repository, this repository has no `live` branch.
 

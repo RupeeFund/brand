@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "rupeefund-brand",
+  "name": "brand",
   "compatibility_date": "2026-09-26",
   "routes": [{ "pattern": "brand.rupeefund.org", "custom_domain": true }],
   "workers_dev": false,
