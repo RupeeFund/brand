@@ -76,6 +76,23 @@
         "logoWidth": 720
       },
       "output": "exports/web/og-card.png"
+    },
+    {
+      "master": "mark",
+      "format": "png",
+      "size": 500,
+      "output": "exports/github/avatar.png"
+    },
+    {
+      "master": "lockup",
+      "format": "png",
+      "size": 1280,
+      "canvas": {
+        "height": 640,
+        "background": "white",
+        "logoWidth": 760
+      },
+      "output": "exports/github/social-preview.png"
     }
   ]
 }

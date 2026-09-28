@@ -1,6 +1,11 @@
 ---
+import { statSync } from "node:fs";
 import Base from "../layouts/Base.astro";
 import Lockup from "../components/Lockup.astro";
+import Section from "../components/Section.astro";
+import { readMaster } from "../lib/masters.mjs";
+import { tokenColours } from "../../scripts/tokens.mjs";
+import { contrastPairs } from "../../scripts/colour.mjs";
 
 const sections = [
   ["name", "Name"],
@@ -11,6 +16,86 @@ const sections = [
   ["voice", "Voice"],
   ["downloads", "Downloads"],
 ];
+
+const lockup = readMaster("lockup");
+const [, , lockupWidth] = lockup.viewBox.split(" ").map(Number);
+const blockShare = Number(lockup.block.width) / lockupWidth;
+const clearSpace = `${((100 * blockShare) / (1 + 2 * blockShare)).toFixed(3)}%`;
+
+const colours = tokenColours();
+const swatches = [
+  ["brand", "Brand green", "The logo block. Use it for large shapes, never for text on white."],
+  ["brand-fg", "Deep green", "Links and short text in green."],
+  ["brand-900", "Forest", "Green text on light green."],
+  ["brand-200", "Mint", "Accents and highlights."],
+  ["brand-50", "Mist", "Light green backgrounds."],
+  ["ink", "Ink", "Text, and the ₹ and the wordmark in the logo."],
+  ["ink-2", "Graphite", "Secondary text."],
+  ["ink-3", "Slate", "Captions and small print."],
+  ["paper", "Paper", "The page background."],
+  ["card", "Card", "Cards on paper."],
+  ["white", "White", "Surfaces, and the wordmark on dark backgrounds."],
+].map(([token, name, use]) => ({ token, name, use, hex: colours.get(`color.${token}`) }));
+const swatchGroups = [swatches.slice(0, 5), swatches.slice(5)];
+const pairs = contrastPairs(colours);
+const dark = new Set(["brand-fg", "brand-900", "ink", "ink-2", "ink-3"]);
+
+const voice = [
+  ["Trustworthy", "Say what happens to the money. Give numbers and dates. Do not promise more."],
+  ["Communal", "Write “we” and “you”. The fund belongs to the people who give to it."],
+  ["Plain", "Use short words and short sentences. Explain a technical term once."],
+  ["Indian", "Use rupees, Indian places and Indian projects. Do not copy a foreign tone."],
+  ["Open", "Show how decisions are made. Link to the source."],
+  ["Participatory", "Ask people to give, to nominate and to vote. Tell them what changed."],
+];
+
+const size = (path: string) => {
+  const bytes = statSync(`exports/${path}`).size;
+  return bytes < 1024 ? `${bytes} B` : `${(bytes / 1024).toFixed(1)} KB`;
+};
+const downloads = [
+  {
+    title: "Logo",
+    preview: "/lockup-light.svg",
+    files: [
+      ["lockup-light.svg", "SVG, for light backgrounds"],
+      ["lockup-dark.svg", "SVG, for dark backgrounds"],
+    ],
+  },
+  {
+    title: "Icon",
+    preview: "/mark.svg",
+    files: [
+      ["mark.svg", "SVG, 48 px and larger"],
+      ["mark-small.svg", "SVG, 16 to 32 px"],
+      ["web/icon-192.png", "PNG, 192 × 192"],
+      ["web/icon-512.png", "PNG, 512 × 512"],
+      ["web/icon-maskable-512.png", "PNG, 512 × 512, maskable"],
+    ],
+  },
+  {
+    title: "Website",
+    preview: "/web/favicon.svg",
+    files: [
+      ["web/favicon.svg", "Favicon, SVG"],
+      ["web/favicon.ico", "Favicon, ICO 16, 32, 48"],
+      ["web/apple-touch-icon.png", "Apple touch icon, 180 × 180"],
+      ["web/logo.svg", "Header logo, SVG"],
+      ["web/og-card.png", "Social card, 1200 × 630"],
+    ],
+  },
+  {
+    title: "GitHub",
+    preview: "/github/avatar.png",
+    files: [
+      ["github/avatar.png", "Avatar, 500 × 500"],
+      ["github/social-preview.png", "Social preview, 1280 × 640"],
+    ],
+  },
+].map((group) => ({
+  ...group,
+  files: group.files.map(([path, label]) => ({ path: `/${path}`, label, size: size(path) })),
+}));
 ---
 
 <Base
@@ -48,8 +133,8 @@ const sections = [
         <div class="hero-body" style="--step: 1">
           <p class="lede">
             The Rupee Fund helps people in India give a small amount each month to the free and
-            open-source software they use. This page shows how the brand looks and sounds, and
-            gives you the files.
+            open-source software they use. This page shows how the brand looks and sounds, and gives
+            you the files.
           </p>
           <div class="actions">
             <a class="button button-primary" href="#downloads">
@@ -60,16 +145,319 @@ const sections = [
         </div>
       </div>
     </section>
+
+    <Section id="name" number="01" title="The name">
+      <p slot="intro">One name, written three ways. Each way has one place.</p>
+      <ol class="names">
+        <li class="name-row reveal">
+          <span class="name-where">In text</span>
+          <span class="name-example">The Rupee Fund</span>
+          <span class="name-note">In sentences, titles and alt text. Always with “The”.</span>
+        </li>
+        <li class="name-row reveal">
+          <span class="name-where">In the logo</span>
+          <span class="name-example">
+            <img src="/lockup-light.svg" alt="The Rupee Fund logo" width="161" height="70" />
+          </span>
+          <span class="name-note">Only as the logo artwork. Do not type the logo as text.</span>
+        </li>
+        <li class="name-row reveal">
+          <span class="name-where">In code</span>
+          <span class="name-example"><code>RupeeFund</code></span>
+          <span class="name-note"
+            >For code, repositories and handles, for example github.com/RupeeFund.</span
+          >
+        </li>
+      </ol>
+    </Section>
+
+    <Section id="logo" number="02" title="The logo" tone="white">
+      <p slot="intro">
+        A green block holds the rupee sign. The word “fund” follows it. The three parts always stay
+        together, in these colours and in this order.
+      </p>
+
+      <div class="logo-grid">
+        <figure class="panel panel-paper reveal">
+          <ol class="anatomy">
+            <li><span>1</span> Block</li>
+            <li><span>2</span> Rupee sign</li>
+            <li><span>3</span> Wordmark</li>
+          </ol>
+          <div class="anatomy-art">
+            <img
+              src="/lockup-light.svg"
+              alt="The logo with its three parts"
+              width="460"
+              height="200"
+            />
+            <span class="pin" style="--x: 8.9%; --y: 14%">1</span>
+            <span class="pin" style="--x: 8.9%; --y: 70%">2</span>
+            <span class="pin" style="--x: 60%; --y: 34%">3</span>
+          </div>
+          <figcaption>Anatomy</figcaption>
+        </figure>
+
+        <figure class="panel panel-paper reveal">
+          <div class="clear-space" style={`--pad: ${clearSpace}`}>
+            <img
+              src="/lockup-light.svg"
+              alt="The logo with its clear space"
+              width="460"
+              height="200"
+            />
+          </div>
+          <figcaption>
+            Clear space: keep one block width free on each side. Nothing else goes in this area.
+          </figcaption>
+        </figure>
+
+        <figure class="panel panel-paper reveal">
+          <img
+            class="on-light"
+            src="/lockup-light.svg"
+            alt="The logo on a light background"
+            width="460"
+            height="200"
+          />
+          <figcaption>On light backgrounds, use the logo with the black wordmark.</figcaption>
+        </figure>
+
+        <figure class="panel panel-ink reveal">
+          <img
+            class="on-dark"
+            src="/lockup-dark.svg"
+            alt="The logo on a dark background"
+            width="460"
+            height="200"
+          />
+          <figcaption>On dark backgrounds, use the logo with the white wordmark.</figcaption>
+        </figure>
+      </div>
+
+      <div class="min-size reveal">
+        <div class="min-size-art">
+          <img src="/lockup-light.svg" alt="The logo at 24 pixels high" width="55" height="24" />
+          <img src="/mark-small.svg" alt="The small icon at 16 pixels" width="16" height="16" />
+        </div>
+        <p>
+          <strong>Minimum size.</strong> Show the logo at 24 px high or larger. When the space is
+          smaller, use the icon.
+        </p>
+      </div>
+
+      <h3 class="subhead reveal">Do not change the logo</h3>
+      <ul class="donts">
+        <li class="dont reveal">
+          <img class="dont-stretch" src="/lockup-light.svg" alt="" width="240" height="104" />
+          <p>Do not stretch or squash it.</p>
+        </li>
+        <li class="dont reveal">
+          <img class="dont-recolour" src="/lockup-light.svg" alt="" width="240" height="104" />
+          <p>Do not change its colours.</p>
+        </li>
+        <li class="dont reveal">
+          <img class="dont-rotate" src="/lockup-light.svg" alt="" width="240" height="104" />
+          <p>Do not rotate it.</p>
+        </li>
+        <li class="dont reveal">
+          <img class="dont-effect" src="/lockup-light.svg" alt="" width="240" height="104" />
+          <p>Do not add shadows or effects.</p>
+        </li>
+        <li class="dont dont-green reveal">
+          <img src="/lockup-light.svg" alt="" width="240" height="104" />
+          <p>Do not put it on green.</p>
+        </li>
+      </ul>
+    </Section>
+
+    <Section id="icon" number="03" title="The icon">
+      <p slot="intro">
+        The icon is the rupee sign on a green square. Use it where the full logo does not fit: app
+        icons, avatars and browser tabs.
+      </p>
+      <div class="icon-row">
+        <figure class="reveal">
+          <img class="icon-large" src="/mark.svg" alt="The icon" width="192" height="192" />
+          <figcaption><code>mark.svg</code>, for 48 px and larger</figcaption>
+        </figure>
+        <figure class="reveal">
+          <div class="icon-small-grid">
+            <img src="/mark-small.svg" alt="The small icon at 16 pixels" width="16" height="16" />
+            <img src="/mark-small.svg" alt="The small icon at 32 pixels" width="32" height="32" />
+            <img src="/mark-small.svg" alt="The small icon at 48 pixels" width="48" height="48" />
+          </div>
+          <figcaption>
+            <code>mark-small.svg</code>, for 16 to 32 px. The bars sit on whole pixels, so the icon
+            stays sharp.
+          </figcaption>
+        </figure>
+        <figure class="reveal">
+          <div class="tab">
+            <img src="/web/favicon.svg" alt="" width="16" height="16" />
+            <span>The Rupee Fund</span>
+            <span class="tab-close" aria-hidden="true">×</span>
+          </div>
+          <figcaption>In a browser tab</figcaption>
+        </figure>
+        <figure class="reveal">
+          <div class="safe-zone">
+            <img
+              src="/web/icon-maskable-512.png"
+              alt="The maskable icon"
+              width="160"
+              height="160"
+            />
+          </div>
+          <figcaption>
+            The maskable icon keeps the rupee sign inside the circle that phones always show.
+          </figcaption>
+        </figure>
+      </div>
+    </Section>
+
+    <Section id="colour" number="04" title="Colour" tone="white">
+      <p slot="intro">
+        Green and ink carry the brand. Paper and white give it room. The same values are in <code
+          >tokens/tokens.json</code
+        >.
+      </p>
+      {
+        swatchGroups.map((group) => (
+          <ul class="swatches">
+            {group.map((s) => (
+              <li class="swatch reveal">
+                <span
+                  class:list={["swatch-chip", { "swatch-dark": dark.has(s.token) }]}
+                  style={`background: var(--color-${s.token})`}
+                >
+                  <span class="swatch-hex">{s.hex}</span>
+                </span>
+                <span class="swatch-name">{s.name}</span>
+                <code class="swatch-token">{s.token}</code>
+                <span class="swatch-use">{s.use}</span>
+              </li>
+            ))}
+          </ul>
+        ))
+      }
+
+      <h3 class="subhead reveal">Colour pairs that pass</h3>
+      <p class="reveal note">
+        Text needs a contrast of 4.5:1 or more. Shapes and icons need 3:1 or more (WCAG 2.2). Brand
+        green on white is 2.66:1, so do not use it for text or controls. The logo is an exception.
+      </p>
+      <ul class="pairs">
+        {
+          pairs.map((p) => (
+            <li
+              class="pair reveal"
+              style={`background: var(--color-${p.bg}); color: var(--color-${p.fg})`}
+            >
+              <span class="pair-sample">{p.kind === "text" ? "Aa" : "₹"}</span>
+              <span class="pair-names">
+                {p.fg} on {p.bg}
+              </span>
+              <span class="pair-ratio">{p.ratio.toFixed(2)}:1</span>
+            </li>
+          ))
+        }
+      </ul>
+    </Section>
+
+    <Section id="type" number="05" title="Type">
+      <p slot="intro">
+        The brand uses Inter, by Rasmus Andersson, under the SIL Open Font License. Get it from{" "}
+        <a href="https://rsms.me/inter/">rsms.me/inter</a>.
+      </p>
+      <div class="type-grid">
+        <div class="specimen reveal">
+          <span class="specimen-glyphs" aria-hidden="true">Aa</span>
+          <p class="specimen-name">Inter</p>
+          <p class="specimen-set">
+            ABCDEFGHIJKLMNOPQRSTUVWXYZ<br />abcdefghijklmnopqrstuvwxyz<br />0123456789 ₹ &amp; ?!
+          </p>
+        </div>
+        <dl class="type-rules">
+          <div class="reveal">
+            <dt>Headings</dt>
+            <dd class="type-heading">Give a little, every month.</dd>
+            <dd>Inter SemiBold (600). Letter spacing −0.033 em.</dd>
+          </div>
+          <div class="reveal">
+            <dt>Text</dt>
+            <dd class="type-body">
+              Your contribution goes to the projects that the community nominates and votes for.
+            </dd>
+            <dd>Inter Regular (400). Line height 1.6.</dd>
+          </div>
+          <div class="reveal">
+            <dt>Logo</dt>
+            <dd>
+              Inter SemiBold (600), letter spacing −0.033 em, drawn as outlines. Do not set the logo
+              in live text.
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </Section>
+
+    <Section id="voice" number="06" title="Voice" tone="ink">
+      <p slot="intro">
+        People give, nominate, vote and decide where the money goes. Write so that each person can
+        take part.
+      </p>
+      <ol class="voice">
+        {
+          voice.map(([word, rule], i) => (
+            <li class="voice-item reveal" style={`--i: ${i % 3}`}>
+              <span class="voice-number">{String(i + 1).padStart(2, "0")}</span>
+              <h3>{word}</h3>
+              <p>{rule}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </Section>
+
+    <Section id="downloads" number="07" title="Downloads" tone="white">
+      <p slot="intro">
+        Use the files as they are. Credit the logo as “© 2026 FOSS United Community, CC BY-ND 4.0”.
+      </p>
+      <div class="downloads">
+        {
+          downloads.map((group) => (
+            <article class="download reveal">
+              <div class="download-preview">
+                <img src={group.preview} alt="" width="160" height="80" />
+              </div>
+              <h3>{group.title}</h3>
+              <ul>
+                {group.files.map((f) => (
+                  <li>
+                    <a href={f.path} download>
+                      <span>{f.label}</span>
+                      <span class="download-size">{f.size}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))
+        }
+      </div>
+    </Section>
   </main>
 
   <footer class="footer">
+    <img class="footer-logo" src="/lockup-dark.svg" alt="The Rupee Fund" width="138" height="60" />
     <p>
-      © 2026 FOSS United Community. The brand assets are under
-      <a href="https://creativecommons.org/licenses/by-nd/4.0/">CC BY-ND 4.0</a>. The build
-      scripts are under the MIT licence.
+      © 2026 FOSS United Community. The brand assets are under{" "}
+      <a href="https://creativecommons.org/licenses/by-nd/4.0/">CC BY-ND 4.0</a>. The build scripts
+      are under the MIT licence.
     </p>
     <p>
-      The Rupee Fund is a community initiative from FOSS United.
+      The Rupee Fund is a community initiative from FOSS United.{" "}
       <a href="https://rupeefund.org">rupeefund.org</a>
     </p>
   </footer>

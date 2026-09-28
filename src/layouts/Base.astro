@@ -9,9 +9,7 @@ interface Props {
 
 const { title, description } = Astro.props;
 const colours = tokenColours();
-const tokens = [...colours]
-  .map(([name, hex]) => `--${name.replace(".", "-")}: ${hex};`)
-  .join(" ");
+const tokens = [...colours].map(([name, hex]) => `--${name.replace(".", "-")}: ${hex};`).join(" ");
 const og = new URL("/web/og-card.png", Astro.site);
 ---
 
@@ -33,7 +31,7 @@ const og = new URL("/web/og-card.png", Astro.site);
     <meta property="og:image" content={og} />
     <meta property="og:image:alt" content="The Rupee Fund logo" />
     <meta name="twitter:card" content="summary_large_image" />
-    <style is:inline set:html={`:root { ${tokens} }`} />
+    <style is:inline set:html={`:root { ${tokens} }`}></style>
   </head>
   <body>
     <slot />
