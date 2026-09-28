@@ -50,6 +50,13 @@ test("serves every download and head icon", async ({ page, request }) => {
   }
 });
 
+test("serves the design tokens", async ({ request }) => {
+  const response = await request.get("/tokens.json");
+
+  expect(response.status()).toBe(200);
+  expect(await response.json()).toEqual(JSON.parse(readFileSync("tokens/tokens.json", "utf8")));
+});
+
 test("loads every image with alt text", async ({ page }) => {
   await page.goto("/");
   await page.waitForLoadState("networkidle");

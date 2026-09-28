@@ -74,4 +74,6 @@ for (const { master, variant, format, size, sizes, canvas, output } of manifest.
   else throw new Error(`unknown format: ${format}`);
 }
 
-console.log(`${manifest.exports.length} files in ${EXPORTS}/`);
+write(`${EXPORTS}/tokens.json`, readFileSync("tokens/tokens.json"));
+
+console.log(`${manifest.exports.length + 1} files in ${EXPORTS}/`);
