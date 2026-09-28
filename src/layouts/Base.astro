@@ -1,0 +1,39 @@
+---
+import { tokenColours } from "../../scripts/tokens.mjs";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const colours = tokenColours();
+const tokens = [...colours].map(([name, hex]) => `--${name.replace(".", "-")}: ${hex};`).join(" ");
+const og = new URL("/web/og-card.png", Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content={colours.get("color.paper")} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="/web/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/web/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/web/apple-touch-icon.png" />
+    <link rel="canonical" href={Astro.url} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content={og} />
+    <meta property="og:image:alt" content="The Rupee Fund logo" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <style is:inline set:html={`:root { ${tokens} }`}></style>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

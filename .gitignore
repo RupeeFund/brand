@@ -1,0 +1,11 @@
+node_modules
+dist
+.astro
+.DS_Store
+.scratchpad/
+
+# Agent instructions are checked in. A global ignore usually excludes AGENTS.md.
+!AGENTS.md
+test-results
+playwright-report
+.wrangler

@@ -1,0 +1,22 @@
+---
+interface Props {
+  id: string;
+  number: string;
+  title: string;
+  tone?: "paper" | "white" | "ink";
+}
+
+const { id, number, title, tone = "paper" } = Astro.props;
+---
+
+<section class:list={["section", `tone-${tone}`]} id={id} aria-labelledby={`${id}-title`}>
+  <header class="section-head reveal">
+    <span class="section-mark" aria-hidden="true"></span>
+    <span class="section-number">{number}</span>
+    <h2 id={`${id}-title`}>{title}</h2>
+    <div class="section-intro"><slot name="intro" /></div>
+  </header>
+  <div class="section-body">
+    <slot />
+  </div>
+</section>

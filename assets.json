@@ -1,0 +1,98 @@
+{
+  "variants": {
+    "dark": {
+      "wordmark": "white"
+    }
+  },
+  "exports": [
+    {
+      "master": "lockup",
+      "format": "svg",
+      "output": "exports/lockup-light.svg"
+    },
+    {
+      "master": "lockup",
+      "variant": "dark",
+      "format": "svg",
+      "output": "exports/lockup-dark.svg"
+    },
+    {
+      "master": "mark",
+      "format": "svg",
+      "output": "exports/mark.svg"
+    },
+    {
+      "master": "mark-small",
+      "format": "svg",
+      "output": "exports/mark-small.svg"
+    },
+    {
+      "master": "mark-small",
+      "format": "svg",
+      "output": "exports/web/favicon.svg"
+    },
+    {
+      "master": "mark-small",
+      "format": "ico",
+      "sizes": [16, 32, 48],
+      "output": "exports/web/favicon.ico"
+    },
+    {
+      "master": "mark",
+      "format": "png",
+      "size": 180,
+      "output": "exports/web/apple-touch-icon.png"
+    },
+    {
+      "master": "mark",
+      "format": "png",
+      "size": 192,
+      "output": "exports/web/icon-192.png"
+    },
+    {
+      "master": "mark",
+      "format": "png",
+      "size": 512,
+      "output": "exports/web/icon-512.png"
+    },
+    {
+      "master": "mark-maskable",
+      "format": "png",
+      "size": 512,
+      "output": "exports/web/icon-maskable-512.png"
+    },
+    {
+      "master": "lockup",
+      "format": "svg",
+      "output": "exports/web/logo.svg"
+    },
+    {
+      "master": "lockup",
+      "format": "png",
+      "size": 1200,
+      "canvas": {
+        "height": 630,
+        "background": "white",
+        "logoWidth": 720
+      },
+      "output": "exports/web/og-card.png"
+    },
+    {
+      "master": "mark",
+      "format": "png",
+      "size": 500,
+      "output": "exports/github/avatar.png"
+    },
+    {
+      "master": "lockup",
+      "format": "png",
+      "size": 1280,
+      "canvas": {
+        "height": 640,
+        "background": "white",
+        "logoWidth": 760
+      },
+      "output": "exports/github/social-preview.png"
+    }
+  ]
+}

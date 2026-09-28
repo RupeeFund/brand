@@ -1,37 +1,45 @@
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="exports/lockup-dark.svg" />
+  <img src="exports/lockup-light.svg" alt="The Rupee Fund" width="230" />
+</picture>
+
 # The Rupee Fund brand
 
-This repository keeps the brand assets of The Rupee Fund. The files are copies from the site at `rupeefund.org`. They are not masters. A later brand sprint makes the masters.
+This repository keeps the brand assets of The Rupee Fund and the brand website, [brand.rupeefund.org](https://brand.rupeefund.org). Read the guidelines and download the files there.
 
 ## Files
 
-| Path                        | Content                       |
-| --------------------------- | ----------------------------- |
-| `logo/logo-rupee-fund.png`  | The logo, 521 × 269 PNG       |
-| `icon/favicon.svg`          | The rupee mark, vector        |
-| `icon/apple-touch-icon.png` | The rupee mark, 180 × 180 PNG |
-| `illustrations/seasons/`    | The four season sprites, SVG  |
+| Path                     | Content                                                      |
+| ------------------------ | ------------------------------------------------------------ |
+| `masters/`               | The vector masters: the logo, the icon and the small icon    |
+| `tokens/tokens.json`     | The colours, in the W3C design tokens format                 |
+| `assets.json`            | The list of exported files                                   |
+| `exports/`               | The exported files. The build writes them. Do not edit them. |
+| `src/`                   | The brand website                                            |
+| `GUIDELINES.md`          | A summary of the usage rules                                 |
+| `logo/`, `icon/`         | The earlier files from `rupeefund.org`, kept for reference   |
+| `illustrations/seasons/` | The four season sprites, SVG                                 |
 
-## Colours
+## Commands
 
-The site defines these tokens in `src/index.css` as `--color-<token>`.
+Use Node 24 and pnpm.
 
-| Token       | Value     |
-| ----------- | --------- |
-| `brand`     | `#08b74f` |
-| `brand-50`  | `#e7f8ee` |
-| `brand-200` | `#8eddb0` |
-| `brand-fg`  | `#057a33` |
-| `brand-900` | `#044f20` |
-| `ink`       | `#141414` |
-| `ink-2`     | `#4a4a4a` |
-| `ink-3`     | `#595959` |
-| `paper`     | `#f0f0f0` |
-| `card`      | `#fafafa` |
+```sh
+pnpm install
+pnpm dev          # the website on your machine
+pnpm check        # the masters, the logo fidelity and the colour contrast
+pnpm build        # the exports, then the website in dist/
+pnpm test:e2e     # the browser tests
+```
+
+`docs/deploy.md` tells how the website deploys.
 
 ## Type
 
-The site uses [Inter](https://rsms.me/inter/). This repository does not keep the font files.
+The logo and the site use [Inter](https://rsms.me/inter/). `src/fonts/` keeps `InterVariable.woff2` from the Inter 4.1 release, with its licence (SIL Open Font License 1.1).
 
 ## Licence
 
-The assets are under [CC BY-ND 4.0](LICENSE). You can share them unchanged, with credit to The Rupee Fund. Do not share a changed version.
+The assets are under [CC BY-ND 4.0](LICENSE). You can share them unchanged, with credit to FOSS United Community. Do not share a changed version.
+
+The scripts in `scripts/` are under the [MIT licence](scripts/LICENSE).
