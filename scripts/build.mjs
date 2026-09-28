@@ -26,6 +26,20 @@ function recolour(svg, fills) {
 const png = (svg, size) =>
   new Resvg(svg, { fitTo: { mode: "width", value: size }, shapeRendering: 2 }).render().asPng();
 
+function compose(svg, width, { height, background, logoWidth }) {
+  const [, , , vbWidth, vbHeight] = svg.match(/viewBox="([\d.-]+) ([\d.-]+) ([\d.]+) ([\d.]+)"/);
+  const logoHeight = (logoWidth * vbHeight) / vbWidth;
+  const x = (width - logoWidth) / 2;
+  const y = (height - logoHeight) / 2;
+  const placed = svg.replace(
+    /<svg\b/,
+    `<svg x="${x}" y="${y}" width="${logoWidth}" height="${logoHeight}"`,
+  );
+  const size = `width="${width}" height="${height}"`;
+  const fill = `<rect ${size} fill="${colour(background)}"/>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" ${size}>${fill}${placed}</svg>`;
+}
+
 function ico(images) {
   const header = Buffer.alloc(6 + 16 * images.length);
   header.writeUInt16LE(1, 2);
@@ -53,9 +67,10 @@ const write = (path, data, meta) => {
 };
 
 for (const entry of manifest.exports) {
-  const { master, variant = "light", format, size, sizes, output } = entry;
+  const { master, variant = "light", format, size, sizes, canvas, output } = entry;
   const { on, ...fills } = manifest.variants[variant];
-  const svg = recolour(readFileSync(`masters/${master}.svg`, "utf8"), fills);
+  const art = recolour(readFileSync(`masters/${master}.svg`, "utf8"), fills);
+  const svg = canvas ? compose(art, size, canvas) : art;
   const meta = { master, variant, format, size };
   if (format === "svg") write(output, svg, meta);
   else if (format === "png") write(output, png(svg, size), meta);
@@ -64,11 +79,11 @@ for (const entry of manifest.exports) {
   else throw new Error(`unknown format: ${format}`);
 }
 
-const shown = (file) => file.format === "svg" || (file.format === "png" && file.size <= 192);
+const shown = (file) => file.format === "svg" || file.format === "png";
 const src = (file) => file.path.slice(EXPORTS.length + 1);
 const figure = (images, bg, label) =>
   `<figure style="background:${colour(bg)}">${images}<figcaption>${label}</figcaption></figure>`;
-const image = (file, width = file.size) =>
+const image = (file, width = Math.min(file.size, 600)) =>
   `<img src="${src(file)}"${width ? ` width="${width}"` : ""} alt="">`;
 const exportFigure = (file, bg) =>
   figure(image(file), bg, `${file.format === "svg" ? "SVG" : `${file.size} px`} on ${bg}`);
@@ -79,9 +94,8 @@ const sections = Object.entries(groups).map(([title, files]) => {
   );
   return `<section><h2>${title}</h2>\n<div class="row">\n${figures.join("\n")}\n</div></section>`;
 });
-const favicons = written
-  .filter((f) => f.master === "mark-small" && f.format === "png")
-  .map((f) => figure(image(f) + image(f, f.size * 8), "white", `${f.size} px`));
+const faviconSvg = written.find((f) => f.path.endsWith("favicon.svg"));
+const favicons = [16, 32].map((s) => figure(image(faviconSvg, s), "white", `${s} px`));
 const favicon = src(written.find((f) => f.format === "ico"));
 const list = written.map((f) => `<li><a href="${src(f)}">${f.path}</a></li>`);
 const caption = [
@@ -109,7 +123,7 @@ figcaption { ${caption}; }
 </style>
 <h1>The Rupee Fund brand exports</h1>
 <p>The build makes every file on this page. Do not edit them by hand.</p>
-<section><h2>Favicon at real size and at 8 × zoom</h2>
+<section><h2>Favicon at real size</h2>
 <div class="row pixel">
 ${favicons.join("\n")}
 </div></section>
