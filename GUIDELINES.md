@@ -38,6 +38,16 @@ Brand green (`#08b74f`) on white is 2.66:1. Do not use it for text or controls. 
 | Controls     | Give an input or a control a boundary of 3:1 or more. Use `border` (`#858585`). Dividers can be lighter. |
 | Focus        | Show a solid 2 px ring. Use `brand-fg` on light surfaces and `white` on `ink`.                           |
 
+## Buttons
+
+| Button  | Rule                                                                                                                            |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| Primary | `ink` fill, `white` label, SemiBold (600). Fully round, 3 rem high or more. On hover, show a 6 px `brand` shadow and lift 2 px. |
+| Quiet   | No fill, a 1.5 px inset `ink` ring and an `ink` label. On hover, use a `white` fill.                                            |
+
+- Put button motion under `prefers-reduced-motion: no-preference` only.
+- Do not use brand green (`#08b74f`) as a button fill with a `white` label. The contrast is 2.66:1.
+
 ## Type
 
 Use [Inter](https://rsms.me/inter/) 4.

@@ -818,6 +818,18 @@ code {
   color: var(--color-ink) !important;
 }
 
+.button-demo {
+  display: grid;
+  gap: 2rem;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  border-radius: 1.25rem;
+  background: var(--color-paper);
+}
+
+.button-demo .rules {
+  margin: 0;
+}
+
 .rules {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
