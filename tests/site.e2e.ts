@@ -77,6 +77,15 @@ test("does not animate with reduced motion", async ({ page }) => {
       ).length,
   );
   expect(animated).toBe(0);
+  const transitioned = await page.evaluate(
+    () =>
+      [...document.querySelectorAll("*")].filter((node) =>
+        getComputedStyle(node)
+          .transitionDuration.split(", ")
+          .some((duration) => duration !== "0s"),
+      ).length,
+  );
+  expect(transitioned).toBe(0);
   await expect(page.locator("html")).toHaveCSS("scroll-behavior", "auto");
 });
 
@@ -90,7 +99,9 @@ test("fits the viewport width", async ({ page }) => {
 });
 
 test("shows the not-found page", async ({ page }) => {
-  await page.goto("/404.html");
+  const response = await page.goto("/no-such-page");
+
+  expect(response?.status()).toBe(404);
 
   await expect(page.locator("h1")).toHaveText("This page does not exist.");
   await expect(page.locator("a[href='/']")).toBeVisible();

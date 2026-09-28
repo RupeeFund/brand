@@ -31,4 +31,4 @@ git fetch origin
 git push origin <sha>:live
 ```
 
-Do not force the push. To go back, run `pnpm wrangler rollback`.
+Do not force the push. To go back, run `pnpm wrangler rollback`. Then add a revert commit to `main` and promote it. If you do not, the next promote deploys the bad change again.

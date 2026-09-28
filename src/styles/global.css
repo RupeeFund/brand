@@ -888,6 +888,7 @@ code {
   justify-content: space-between;
   gap: 1rem;
   min-height: 2.75rem;
+  padding: 0.5rem 0;
   align-items: center;
   border-top: 1px solid color-mix(in srgb, var(--color-ink) 12%, transparent);
   text-decoration: none;
@@ -895,9 +896,16 @@ code {
   font-weight: 500;
 }
 
-.download a:hover span:first-child {
+.download a:hover > span:first-child {
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+.download-file {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: var(--color-ink-3);
 }
 
 .download-size {

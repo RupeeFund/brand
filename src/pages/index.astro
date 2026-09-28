@@ -57,6 +57,7 @@ const downloads = [
   {
     title: "Logo",
     preview: "/lockup-light.svg",
+    previewSize: [161, 70],
     files: [
       ["lockup-light.svg", "SVG, for light backgrounds"],
       ["lockup-dark.svg", "SVG, for dark backgrounds"],
@@ -65,6 +66,7 @@ const downloads = [
   {
     title: "Icon",
     preview: "/mark.svg",
+    previewSize: [80, 80],
     files: [
       ["mark.svg", "SVG, 48 px and larger"],
       ["mark-small.svg", "SVG, 16 to 32 px"],
@@ -76,6 +78,7 @@ const downloads = [
   {
     title: "Website",
     preview: "/web/favicon.svg",
+    previewSize: [80, 80],
     files: [
       ["web/favicon.svg", "Favicon, SVG"],
       ["web/favicon.ico", "Favicon, ICO 16, 32, 48"],
@@ -87,6 +90,7 @@ const downloads = [
   {
     title: "GitHub",
     preview: "/github/avatar.png",
+    previewSize: [80, 80],
     files: [
       ["github/avatar.png", "Avatar, 500 × 500"],
       ["github/social-preview.png", "Social preview, 1280 × 640"],
@@ -191,9 +195,9 @@ const downloads = [
               width="460"
               height="200"
             />
-            <span class="pin" style="--x: 8.9%; --y: 14%">1</span>
-            <span class="pin" style="--x: 8.9%; --y: 70%">2</span>
-            <span class="pin" style="--x: 60%; --y: 34%">3</span>
+            <span class="pin" aria-hidden="true" style="--x: 8.9%; --y: 14%">1</span>
+            <span class="pin" aria-hidden="true" style="--x: 8.9%; --y: 70%">2</span>
+            <span class="pin" aria-hidden="true" style="--x: 60%; --y: 34%">3</span>
           </div>
           <figcaption>Anatomy</figcaption>
         </figure>
@@ -241,8 +245,8 @@ const downloads = [
           <img src="/mark-small.svg" alt="The small icon at 16 pixels" width="16" height="16" />
         </div>
         <p>
-          <strong>Minimum size.</strong> Show the logo at 24 px high or larger. When the space is
-          smaller, use the icon.
+          <strong>Minimum size.</strong>
+          Show the logo at 24 px high or larger. When the space is smaller, use the icon.
         </p>
       </div>
 
@@ -429,14 +433,22 @@ const downloads = [
           downloads.map((group) => (
             <article class="download reveal">
               <div class="download-preview">
-                <img src={group.preview} alt="" width="160" height="80" />
+                <img
+                  src={group.preview}
+                  alt=""
+                  width={group.previewSize[0]}
+                  height={group.previewSize[1]}
+                />
               </div>
               <h3>{group.title}</h3>
               <ul>
                 {group.files.map((f) => (
                   <li>
                     <a href={f.path} download>
-                      <span>{f.label}</span>
+                      <span>
+                        {f.label}
+                        <span class="download-file">{f.path.split("/").at(-1)}</span>
+                      </span>
                       <span class="download-size">{f.size}</span>
                     </a>
                   </li>
