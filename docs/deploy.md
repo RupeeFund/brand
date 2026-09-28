@@ -1,6 +1,6 @@
 # Deployment
 
-The site at `brand.rupeefund.org` is an assets-only Cloudflare Worker, `brand`. `wrangler.jsonc` holds its configuration. `src/_headers` sets the security and cache headers. The build copies it to `dist/`.
+The site at `brand.rupeefund.org` is an assets-only Cloudflare Worker, `brand`. `wrangler.jsonc` holds its configuration. `src/_headers` sets the security and cache headers. The build copies it to `dist/`. The policy allows `static.cloudflareinsights.com`, because Cloudflare Web Analytics adds its script to each page on the zone.
 
 ## 1. The branch model
 
