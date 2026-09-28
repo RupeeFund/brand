@@ -9,7 +9,7 @@
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
   --tracking-tight: -0.033em;
-  --gutter: clamp(1.25rem, 5vw, 4rem);
+  --gutter: max(clamp(1.25rem, 5vw, 4rem), (100vw - 88rem) / 2);
   --measure: 38rem;
   color-scheme: light;
 }
