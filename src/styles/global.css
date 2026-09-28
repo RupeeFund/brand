@@ -913,6 +913,19 @@ code {
   margin-bottom: 1rem;
 }
 
+.not-found {
+  display: grid;
+  place-content: center;
+  justify-items: start;
+  gap: 2rem;
+  min-height: 100svh;
+  padding: var(--gutter);
+}
+
+.not-found h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+}
+
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;

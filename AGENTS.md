@@ -12,6 +12,8 @@ This repository keeps the brand of The Rupee Fund: vector masters, design tokens
 | `scripts/`                         | The build and the checks                                                |
 | `exports/`                         | Build output only                                                       |
 | `src/`                             | The brand website (Astro). `exports/` is its public directory.          |
+| `tests/`                           | Playwright E2E tests for the site                                       |
+| `docs/deploy.md`                   | How the site deploys to Cloudflare                                      |
 | `GUIDELINES.md`                    | Usage rules                                                             |
 | `logo/`, `icon/`, `illustrations/` | Seed copies from the site. `logo/logo-rupee-fund.png` is the reference. |
 

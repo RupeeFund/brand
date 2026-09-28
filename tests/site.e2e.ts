@@ -88,3 +88,10 @@ test("fits the viewport width", async ({ page }) => {
   );
   expect(overflow).toBe(0);
 });
+
+test("shows the not-found page", async ({ page }) => {
+  await page.goto("/404.html");
+
+  await expect(page.locator("h1")).toHaveText("This page does not exist.");
+  await expect(page.locator("a[href='/']")).toBeVisible();
+});
