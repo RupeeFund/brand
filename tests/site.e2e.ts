@@ -106,3 +106,12 @@ test("shows the not-found page", async ({ page }) => {
   await expect(page.locator("h1")).toHaveText("This page does not exist.");
   await expect(page.locator("a[href='/']")).toBeVisible();
 });
+
+test("sends the security headers", async ({ request }) => {
+  const response = await request.get("/");
+  const headers = response.headers();
+
+  expect(headers["content-security-policy"]).toContain("default-src 'self'");
+  expect(headers["x-content-type-options"]).toBe("nosniff");
+  expect(headers["strict-transport-security"]).toContain("max-age=");
+});

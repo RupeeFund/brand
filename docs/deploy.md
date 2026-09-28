@@ -1,6 +1,6 @@
 # Deployment
 
-The site at `brand.rupeefund.org` is an assets-only Cloudflare Worker, `brand`. `wrangler.jsonc` holds its configuration.
+The site at `brand.rupeefund.org` is an assets-only Cloudflare Worker, `brand`. `wrangler.jsonc` holds its configuration. `src/_headers` sets the security and cache headers. The build copies it to `dist/`.
 
 ## 1. The branch model
 
@@ -27,8 +27,7 @@ Do not run `wrangler deploy` by hand. It uploads whatever `dist` holds.
 ```sh
 pnpm check        # masters, fidelity, contrast
 pnpm build        # exports, then the site in dist
-pnpm test:e2e     # Playwright against the local build
-pnpm wrangler dev # serve dist as the Worker does
+pnpm test:e2e     # Playwright against dist, served by wrangler dev
 ```
 
 Then open a pull request and check its Preview URL.
