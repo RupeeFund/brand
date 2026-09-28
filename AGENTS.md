@@ -26,7 +26,8 @@ A directory comes into the tree with its first file.
 - Redraw the current logo. Do not redesign it. `logo/logo-rupee-fund.png` is the fidelity reference.
 - Use only fonts under the OFL or an equal licence. Record the source and the licence of each glyph.
 - Do not fetch or load anything from a Google service. Get Inter from the upstream `rsms/inter` release.
-- Write "The Rupee Fund" in text. Use `₹fund` only in the logo. Use `RupeeFund` only for code, repositories and handles.
+- Write "The Rupee Fund" in text, with a capital "T" in a sentence too. Use `₹fund` only in the logo. Use `RupeeFund` for code, repositories, handles and as the short name. Use `TRF` only where a web manifest `short_name` or an app label needs it.
+- Do not use the name as a modifier. Write "roles in The Rupee Fund", not "Rupee Fund roles". The Name section of `GUIDELINES.md` is the full rule.
 - Every credit and copyright line names FOSS United Community.
 - The assets are under CC BY-ND 4.0 (`LICENSE`).
 - Show each visual change to the maintainer as a page in a browser. Run `pnpm dev`.
