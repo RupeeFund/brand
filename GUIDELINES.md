@@ -70,6 +70,12 @@ Use [Inter](https://rsms.me/inter/) 4.
 - Open: show how decisions are made. Link to the source.
 - Participatory: ask people to give, to nominate and to vote. Tell them what changed.
 
+### Words
+
+| Write  | Do not write | Where                                           |
+| ------ | ------------ | ----------------------------------------------- |
+| People | Team         | The page and the link that list the volunteers. |
+
 ## Credit and licence
 
 Credit the logo as "© 2026 FOSS United Community, CC BY-ND 4.0". Share the files unchanged.
