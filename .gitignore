@@ -1,0 +1,6 @@
+node_modules
+.DS_Store
+.scratchpad/
+
+# Agent instructions are checked in. A global ignore usually excludes AGENTS.md.
+!AGENTS.md

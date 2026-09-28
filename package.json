@@ -1,0 +1,20 @@
+{
+  "name": "rupeefund-brand",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Brand masters, design tokens and exports for The Rupee Fund.",
+  "license": "MIT AND CC-BY-ND-4.0",
+  "author": "FOSS United Community",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/lint-masters.mjs && node scripts/fidelity.mjs && node scripts/contrast.mjs"
+  },
+  "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "packageManager": "pnpm@11.8.0"
+}
