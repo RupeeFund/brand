@@ -1,6 +1,6 @@
 import { defineConfig, devices } from "@playwright/test";
 
-const baseURL = "http://localhost:4321";
+const baseURL = "http://localhost:4322";
 
 export default defineConfig({
   testDir: "./tests",
@@ -15,7 +15,7 @@ export default defineConfig({
     { name: "no-js", use: { ...devices["Desktop Chrome"], javaScriptEnabled: false } },
   ],
   webServer: {
-    command: "pnpm preview --ignore-lock",
+    command: "pnpm preview --ignore-lock --port 4322",
     url: baseURL,
     reuseExistingServer: !process.env.CI,
   },
