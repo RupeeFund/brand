@@ -5,20 +5,18 @@
 
 # The Rupee Fund brand
 
-This repository keeps the brand assets of The Rupee Fund and the brand website, [brand.rupeefund.org](https://brand.rupeefund.org). Read the guidelines and download the files there.
+The brand guidelines and the files are at [brand.rupeefund.org](https://brand.rupeefund.org). This repository holds the sources of that website.
 
 ## Files
 
-| Path                     | Content                                                      |
-| ------------------------ | ------------------------------------------------------------ |
-| `masters/`               | The vector masters: the logo, the icon and the small icon    |
-| `tokens/tokens.json`     | The colours, in the W3C design tokens format                 |
-| `assets.json`            | The list of exported files                                   |
-| `exports/`               | The exported files. The build writes them. Do not edit them. |
-| `src/`                   | The brand website                                            |
-| `GUIDELINES.md`          | A summary of the usage rules                                 |
-| `logo/`, `icon/`         | The earlier files from `rupeefund.org`, kept for reference   |
-| `illustrations/seasons/` | The four season sprites, SVG                                 |
+| Path                 | Content                                                                   |
+| -------------------- | ------------------------------------------------------------------------- |
+| `masters/`           | The vector masters of the logo and the icons                              |
+| `tokens/tokens.json` | The colours, in the W3C design tokens format                              |
+| `assets.json`        | The list of exported files                                                |
+| `exports/`           | The exported files. The build writes them. Do not edit them.              |
+| `src/`               | The brand website. `src/fonts/` holds Inter 4.1 and its licence (OFL 1.1) |
+| `logo/`              | The earlier logo, the reference for the fidelity check                    |
 
 ## Commands
 
@@ -32,14 +30,8 @@ pnpm build        # the exports, then the website in dist/
 pnpm test:e2e     # the browser tests
 ```
 
-`docs/deploy.md` tells how the website deploys.
-
-## Type
-
-The logo and the site use [Inter](https://rsms.me/inter/). `src/fonts/` keeps `InterVariable.woff2` from the Inter 4.1 release, with its licence (SIL Open Font License 1.1).
+No CI runs these checks. Run `pnpm check`, `pnpm build` and `pnpm test:e2e` before you push. `docs/deploy.md` tells how the website deploys.
 
 ## Licence
 
-The assets are under [CC BY-ND 4.0](LICENSE). You can share them unchanged, with credit to FOSS United Community. Do not share a changed version.
-
-The scripts in `scripts/` are under the [MIT licence](scripts/LICENSE).
+The assets are under [CC BY-ND 4.0](LICENSE). The scripts in `scripts/` are under the [MIT licence](scripts/LICENSE).

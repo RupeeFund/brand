@@ -9,7 +9,7 @@ The site at `brand.rupeefund.org` is an assets-only Cloudflare Worker, `brand`. 
 | `main`       | `brand.rupeefund.org`                               | each push |
 | other branch | a Preview, `<branch>-brand.<subdomain>.workers.dev` | each push |
 
-`main` is the only branch that goes out. Unlike the site repository, this repository has no `live` branch.
+`main` is the only branch that goes out.
 
 Set these values in Cloudflare Workers Builds:
 
@@ -24,13 +24,7 @@ Do not run `wrangler deploy` by hand. It uploads whatever `dist` holds.
 
 ## 2. How to prove a change
 
-```sh
-pnpm check        # masters, fidelity, contrast
-pnpm build        # exports, then the site in dist
-pnpm test:e2e     # Playwright against dist, served by wrangler dev
-```
-
-Then open a pull request and check its Preview URL.
+Run the checks in `README.md`. Then open a pull request and check its Preview URL.
 
 ## 3. How to release
 

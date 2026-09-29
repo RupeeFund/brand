@@ -1,35 +1,15 @@
 # AGENTS.md
 
-This repository keeps the brand of The Rupee Fund: vector masters, design tokens, and the exports that the build makes from them.
-
-## Layout
-
-| Path                               | Content                                                                 |
-| ---------------------------------- | ----------------------------------------------------------------------- |
-| `masters/`                         | Hand-drawn SVG masters: `lockup.svg`, `mark.svg`, `mark-small.svg`      |
-| `tokens/tokens.json`               | Design tokens in the W3C DTCG format                                    |
-| `assets.json`                      | The export manifest: source, variant, size, format, output path         |
-| `scripts/`                         | The build and the checks                                                |
-| `exports/`                         | Build output only                                                       |
-| `src/`                             | The brand website (Astro). `exports/` is its public directory.          |
-| `tests/`                           | Playwright E2E tests for the site                                       |
-| `docs/deploy.md`                   | How the site deploys to Cloudflare                                      |
-| `GUIDELINES.md`                    | Usage rules                                                             |
-| `logo/`, `icon/`, `illustrations/` | Seed copies from the site. `logo/logo-rupee-fund.png` is the reference. |
-
-A directory comes into the tree with its first file.
+The brand website, `src/pages/index.astro`, is the single source of truth for the brand rules. Write each rule there and nowhere else. `README.md` lists the files and the commands.
 
 ## Rules
 
-- Do not edit a file in `exports/`. Change a master, a token or `assets.json`, then run the build and commit the result.
-- Outline all text in a master. A master holds no `<text>` and no `<image>`, and only token colours.
-- Redraw the current logo. Do not redesign it. `logo/logo-rupee-fund.png` is the fidelity reference.
+- Scope: a rule on the brand website applies to every surface of The Rupee Fund. A rule, a sample or a file that only one website or app needs stays in the repository of that surface.
+- Change a master, a token or `assets.json`, then run the build and commit the result. The build owns `exports/`.
+- Outline all text in a master. A master holds only paths and token colours: no `<text>`, no `<image>`.
+- Redraw the current logo. Keep its design. `logo/logo-rupee-fund.png` is the fidelity reference for `scripts/fidelity.mjs`.
 - Use only fonts under the OFL or an equal licence. Record the source and the licence of each glyph.
-- Do not fetch or load anything from a Google service. Get Inter from the upstream `rsms/inter` release.
-- Write "The Rupee Fund" in text, with a capital "T" in a sentence too. Use `₹fund` only in the logo. Use `RupeeFund` for code, repositories, handles and as the short name. Use `TRF` only where a web manifest `short_name` or an app label needs it.
-- Do not use the name as a modifier. Write "roles in The Rupee Fund", not "Rupee Fund roles". The Name section of `GUIDELINES.md` is the full rule.
-- Every credit and copyright line names FOSS United Community.
-- The assets are under CC BY-ND 4.0 (`LICENSE`).
+- Self-host every file. Load nothing from a Google service.
 - Show each visual change to the maintainer as a page in a browser. Run `pnpm dev`.
-- The site works without JavaScript. Motion is CSS only, and `prefers-reduced-motion: reduce` turns it off.
+- The site works without JavaScript. Motion is CSS only.
 - Write docs in ASD-STE100.
