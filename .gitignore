@@ -4,8 +4,9 @@ dist
 .DS_Store
 .scratchpad/
 
-# Agent instructions are checked in. A global ignore usually excludes AGENTS.md.
+# Agent instructions are checked in. A global ignore usually excludes them.
 !AGENTS.md
+!CLAUDE.md
 test-results
 playwright-report
 .wrangler
