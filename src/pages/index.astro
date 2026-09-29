@@ -20,35 +20,33 @@ const sections = [
 
 const lockup = readMaster("lockup");
 const [, , lockupWidth] = lockup.viewBox.split(" ").map(Number);
-const blockShare = Number(lockup.block.width) / lockupWidth;
-const clearSpace = `${((100 * blockShare) / (1 + 2 * blockShare)).toFixed(3)}%`;
+const blockShare = (Number(lockup.block.width) / lockupWidth).toFixed(4);
 
 const colours = tokenColours();
 const swatches = [
   ["brand", "Brand green", "The logo block. Use it for large shapes, never for text on white."],
-  ["brand-fg", "Deep green", "Links and short text in green."],
-  ["brand-900", "Forest", "Green text on light green."],
+  ["brand-fg", "Deep green", "Links and short text in green.", "white"],
+  ["brand-900", "Forest", "Green text on light green.", "white"],
   ["brand-200", "Mint", "Accents and highlights."],
   ["brand-50", "Mist", "Light green backgrounds."],
-  ["ink", "Ink", "Text, and the ₹ and the wordmark in the logo."],
-  ["ink-2", "Graphite", "Secondary text."],
-  ["ink-3", "Slate", "Captions and small print."],
+  ["ink", "Ink", "Text, and the ₹ and the wordmark in the logo.", "paper"],
+  ["ink-2", "Graphite", "Secondary text.", "white"],
+  ["ink-3", "Slate", "Captions and small print.", "white"],
   ["paper", "Paper", "The page background."],
   ["card", "Card", "Notes and quiet callouts on white or paper."],
   ["white", "White", "Surfaces, and the wordmark on dark backgrounds."],
-  ["error", "Error", "Error text and error icons."],
+  ["error", "Error", "Error text and error icons.", "white"],
   ["border", "Border", "Boundaries of inputs and controls."],
-].map(([token, name, use]) => ({ token, name, use, hex: colours.get(`color.${token}`) }));
+].map(([token, name, use, text = "ink"]) => ({
+  token,
+  name,
+  use,
+  text,
+  hex: colours.get(`color.${token}`),
+}));
 const swatchGroups = [swatches.slice(0, 5), swatches.slice(5, 11), swatches.slice(11)];
 const pairs = contrastPairs(colours);
-const dark = new Set(["brand-fg", "brand-900", "ink", "ink-2", "ink-3", "error"]);
-
-const words = [
-  [
-    "Only what is true now",
-    "Do not write “phase 2”, “endowment” or “in perpetuity”. Promise no later plan.",
-  ],
-];
+const pairGroups = ["text", "graphic"].map((kind) => pairs.filter((p) => p.kind === kind));
 
 const writing = [
   [
@@ -60,6 +58,10 @@ const writing = [
   ["Dates", "Write the day, the month in full and the year: 29 September 2026."],
   ["Marks", "Use curly quotes, an en dash for a range (10–20) and one ellipsis character (…)."],
   ["Errors", "Say what failed and what to do next. Put the message next to the field."],
+  [
+    "Only what is true now",
+    "Do not write “phase\u00a02”, “endowment” or “in perpetuity”. Promise no later plan.",
+  ],
 ];
 
 const voice = [
@@ -90,11 +92,11 @@ const downloads = [
     preview: "/mark.svg",
     previewSize: [80, 80],
     files: [
-      ["mark.svg", "SVG, 48 px and larger"],
-      ["mark-small.svg", "SVG, 16–32 px"],
-      ["web/icon-192.png", "PNG, 192 × 192"],
-      ["web/icon-512.png", "PNG, 512 × 512"],
-      ["web/icon-maskable-512.png", "PNG, 512 × 512, maskable"],
+      ["mark.svg", "SVG, 48\u00a0px and larger"],
+      ["mark-small.svg", "SVG, 16–32\u00a0px"],
+      ["web/icon-192.png", "PNG, 192\u00a0×\u00a0192"],
+      ["web/icon-512.png", "PNG, 512\u00a0×\u00a0512"],
+      ["web/icon-maskable-512.png", "PNG, 512\u00a0×\u00a0512, maskable"],
     ],
   },
   {
@@ -104,10 +106,10 @@ const downloads = [
     files: [
       ["web/favicon.svg", "Favicon, SVG"],
       ["web/favicon.ico", "Favicon, ICO 16, 32, 48"],
-      ["web/apple-touch-icon.png", "Apple touch icon, 180 × 180"],
+      ["web/apple-touch-icon.png", "Apple touch icon, 180\u00a0×\u00a0180"],
       ["web/logo.svg", "Logo for light backgrounds, SVG"],
       ["web/logo-dark.svg", "Logo for dark backgrounds, SVG"],
-      ["web/og-card.png", "Social card, 1200 × 630"],
+      ["web/og-card.png", "Social card, 1200\u00a0×\u00a0630"],
     ],
   },
   {
@@ -115,8 +117,8 @@ const downloads = [
     preview: "/github/avatar.png",
     previewSize: [80, 80],
     files: [
-      ["github/avatar.png", "Avatar, 500 × 500"],
-      ["github/social-preview.png", "Social preview, 1280 × 640"],
+      ["github/avatar.png", "Avatar, 500\u00a0×\u00a0500"],
+      ["github/social-preview.png", "Social preview, 1280\u00a0×\u00a0640"],
     ],
   },
 ].map((group) => ({
@@ -171,51 +173,49 @@ const downloads = [
 
     <Section id="name" number="01" title="The name">
       <p slot="intro">One name. Each way to write it has one place.</p>
-      <ol class="names">
-        <li class="name-row reveal">
-          <span class="name-where">In text</span>
-          <span class="name-example">The Rupee Fund</span>
-          <span class="name-note"
-            >In sentences, titles and alt text. Always with “The”, with a capital “T” in a sentence
-            too: “contribute to The Rupee Fund”.</span
-          >
-        </li>
-        <li class="name-row reveal">
-          <span class="name-where">Not as a modifier</span>
-          <span class="name-example">roles in The Rupee Fund</span>
-          <span class="name-note"
-            >Do not use the name as a modifier. Write “roles in The Rupee Fund”, not “Rupee Fund
-            roles”.</span
-          >
-        </li>
-        <li class="name-row reveal">
-          <span class="name-where">In the logo</span>
-          <span class="name-example">
+      <dl class="rules">
+        <div class="reveal">
+          <dt>In text</dt>
+          <dd class="name-example">The Rupee Fund</dd>
+          <dd>
+            In sentences, titles and alt text. Always with “The”, with a capital “T” in a sentence
+            too: “contribute to The Rupee Fund”.
+          </dd>
+        </div>
+        <div class="reveal">
+          <dt>Not as a modifier</dt>
+          <dd class="name-example">roles in The Rupee Fund</dd>
+          <dd>
+            Do not use the name as a modifier. Write “roles in The Rupee Fund”, not “Rupee Fund
+            roles”.
+          </dd>
+        </div>
+        <div class="reveal">
+          <dt>In the logo</dt>
+          <dd class="name-example">
             <img src="/lockup-light.svg" alt="The logo of The Rupee Fund" width="161" height="70" />
-          </span>
-          <span class="name-note">Only as the logo artwork. Do not type the logo as text.</span>
-        </li>
-        <li class="name-row reveal">
-          <span class="name-where">As a short name</span>
-          <span class="name-example">RupeeFund</span>
-          <span class="name-note"
-            >Where a web manifest <code>short_name</code> or an app label needs it, you can use
-            “TRF”.</span
-          >
-        </li>
-        <li class="name-row reveal">
-          <span class="name-where">Credit</span>
-          <span class="name-example name-sentence">© 2026 FOSS United Community, CC BY-ND 4.0</span>
-          <span class="name-note">The copyright line for the logo, the icon and the brand files.</span>
-        </li>
-        <li class="name-row reveal">
-          <span class="name-where">In code</span>
-          <span class="name-example"><code>RupeeFund</code></span>
-          <span class="name-note"
-            >For code, repositories and handles, for example github.com/RupeeFund.</span
-          >
-        </li>
-      </ol>
+          </dd>
+          <dd>Only as the logo artwork. Do not type the logo as text.</dd>
+        </div>
+        <div class="reveal">
+          <dt>As a short name</dt>
+          <dd class="name-example">RupeeFund</dd>
+          <dd>
+            Where a web manifest <code>short_name</code> or an app label needs it, you can use
+            “TRF”.
+          </dd>
+        </div>
+        <div class="reveal">
+          <dt>Credit</dt>
+          <dd class="name-example name-sentence">© 2026 FOSS United Community, CC&nbsp;BY-ND&nbsp;4.0</dd>
+          <dd>The copyright line for the logo, the icon and the brand files.</dd>
+        </div>
+        <div class="reveal">
+          <dt>In code</dt>
+          <dd class="name-example"><code>RupeeFund</code></dd>
+          <dd>For code, repositories and handles, for example github.com/RupeeFund.</dd>
+        </div>
+      </dl>
     </Section>
 
     <Section id="logo" number="02" title="The logo" tone="white">
@@ -224,7 +224,7 @@ const downloads = [
         together, in these colours and in this order.
       </p>
 
-      <div class="logo-grid">
+      <div class="logo-grid" style={`--share: ${blockShare}`}>
         <figure class="panel panel-paper reveal">
           <ol class="anatomy">
             <li><span>1</span> Block</li>
@@ -246,7 +246,7 @@ const downloads = [
         </figure>
 
         <figure class="panel panel-paper reveal">
-          <div class="clear-space" style={`--pad: ${clearSpace}`}>
+          <div class="clear-space">
             <img
               src="/lockup-light.svg"
               alt="The logo with its clear space"
@@ -289,7 +289,7 @@ const downloads = [
         </div>
         <p>
           <strong>Minimum size.</strong>{" "}
-          Show the logo at 24 px high or larger. When the space is smaller, use the icon.
+          Show the logo at 24&nbsp;px high or larger. When the space is smaller, use the icon.
         </p>
       </div>
 
@@ -326,7 +326,7 @@ const downloads = [
       <div class="icon-row">
         <figure class="reveal">
           <img class="icon-large" src="/mark.svg" alt="The icon" width="192" height="192" />
-          <figcaption><code>mark.svg</code>, for 48 px and larger</figcaption>
+          <figcaption><code>mark.svg</code>, for 48&nbsp;px and larger</figcaption>
         </figure>
         <figure class="reveal">
           <div class="icon-small-grid">
@@ -334,7 +334,7 @@ const downloads = [
             <img src="/mark-small.svg" alt="The small icon at 32 pixels" width="32" height="32" />
           </div>
           <figcaption>
-            <code>mark-small.svg</code>, for 16–32 px. The bars sit on whole pixels, so the icon
+            <code>mark-small.svg</code>, for 16–32&nbsp;px. The bars sit on whole pixels, so the icon
             stays sharp.
           </figcaption>
         </figure>
@@ -375,8 +375,8 @@ const downloads = [
             {group.map((s) => (
               <li class="swatch reveal">
                 <span
-                  class:list={["swatch-chip", { "swatch-dark": dark.has(s.token) }]}
-                  style={`background: var(--color-${s.token})`}
+                  class="swatch-chip"
+                  style={`background: var(--color-${s.token}); color: var(--color-${s.text})`}
                 >
                   <span class="swatch-hex">{s.hex}</span>
                 </span>
@@ -389,59 +389,66 @@ const downloads = [
         ))
       }
 
-      <h3 class="subhead reveal">Colour pairs that pass</h3>
-      <p class="reveal note">
-        Text needs a contrast of 4.5:1 or more. Shapes and icons need 3:1 or more (WCAG 2.2). Brand
-        green on white is 2.66:1, so do not use it for text or controls. The logo is an exception. A
-        surface can add an accent colour, for example in an illustration, if its text pairs pass.
-      </p>
-      <dl class="rules reveal">
+      <div class="split">
+        <h3 class="subhead reveal">Colour pairs that pass</h3>
         <div>
-          <dt>Text on dark</dt>
-          <dd>On ink, use paper for text and white for links.</dd>
+          <p class="reveal note">
+            Text needs a contrast of 4.5:1 or more. Shapes and icons need 3:1 or more
+            (WCAG&nbsp;2.2). Brand green on white is 2.66:1, so do not use it for text or controls.
+            The logo is an exception. A surface can add an accent colour, for example in an
+            illustration, if its text pairs pass.
+          </p>
+          <dl class="rules reveal">
+            <div>
+              <dt>Text on dark</dt>
+              <dd>On ink, use paper for text and white for links.</dd>
+            </div>
+            <div>
+              <dt>Errors</dt>
+              <dd>Use error for error text and error icons.</dd>
+            </div>
+            <div>
+              <dt>Controls</dt>
+              <dd>
+                Give an input or a control a boundary of 3:1 or more. Use border. Dividers can be
+                lighter.
+              </dd>
+            </div>
+            <div>
+              <dt>Focus</dt>
+              <dd>Show a solid 2&nbsp;px ring. Use deep green on light surfaces and white on ink.</dd>
+            </div>
+          </dl>
         </div>
-        <div>
-          <dt>Errors</dt>
-          <dd>Use error for error text and error icons.</dd>
-        </div>
-        <div>
-          <dt>Controls</dt>
-          <dd>
-            Give an input or a control a boundary of 3:1 or more. Use border. Dividers can be
-            lighter.
-          </dd>
-        </div>
-        <div>
-          <dt>Focus</dt>
-          <dd>Show a solid 2 px ring. Use deep green on light surfaces and white on ink.</dd>
-        </div>
-      </dl>
-      <ul class="pairs">
-        {
-          pairs.map((p) => (
-            <li
-              class:list={["pair", "reveal", { "pair-graphic": p.kind === "graphic" }]}
-              style={`background: var(--color-${p.bg}); color: var(--color-${p.fg})`}
-            >
-              <span class="pair-sample">{p.kind === "text" ? "Aa" : "₹"}</span>
-              <span class="pair-names">
-                {p.fg} on {p.bg}
-              </span>
-              <span class="pair-ratio">{p.ratio.toFixed(2)}:1</span>
-            </li>
-          ))
-        }
-      </ul>
+      </div>
+      {
+        pairGroups.map((group) => (
+          <ul class="pairs">
+            {group.map((p) => (
+              <li
+                class:list={["pair", "reveal", { "pair-graphic": p.kind === "graphic" }]}
+                style={`background: var(--color-${p.bg}); color: var(--color-${p.fg})`}
+              >
+                <span class="pair-sample">{p.kind === "text" ? "Aa" : "₹"}</span>
+                <span class="pair-names">
+                  {p.fg} on {p.bg}
+                </span>
+                <span class="pair-ratio">{p.ratio.toFixed(2)}:1</span>
+              </li>
+            ))}
+          </ul>
+        ))
+      }
     </Section>
 
     <Section id="type" number="05" title="Type">
       <p slot="intro">
         The brand uses Inter, by Rasmus Andersson, under the SIL Open Font License. Serve it from
-        your own site: the release at <a href="https://rsms.me/inter/">rsms.me/inter</a> or the
-        <code>@fontsource-variable/inter</code> package. Load no font from Google. Each surface sets
-        its own type sizes.
+        your own site: the release at <a href="https://rsms.me/inter/">rsms.me/inter</a> or
+        the <code>@fontsource-variable/inter</code> package. Load no font from Google. Each surface
+        sets its own type sizes.
       </p>
-      <div class="type-grid">
+      <div class="split">
         <div class="specimen reveal">
           <span class="specimen-glyphs" aria-hidden="true">Aa</span>
           <p class="specimen-name">Inter</p>
@@ -449,11 +456,11 @@ const downloads = [
             ABCDEFGHIJKLMNOPQRSTUVWXYZ<br />abcdefghijklmnopqrstuvwxyz<br />0123456789 ₹ &amp; ?!
           </p>
         </div>
-        <dl class="type-rules">
+        <dl class="rules">
           <div class="reveal">
             <dt>Headings</dt>
             <dd class="type-heading">Plain words, set in Inter.</dd>
-            <dd>Inter SemiBold (600). Letter spacing −0.033 em.</dd>
+            <dd>Inter SemiBold (600). Letter spacing −0.033&nbsp;em.</dd>
           </div>
           <div class="reveal">
             <dt>Text</dt>
@@ -473,25 +480,31 @@ const downloads = [
           <div class="reveal">
             <dt>Labels</dt>
             <dd class="eyebrow">Brand guidelines</dd>
-            <dd>Inter SemiBold (600), 0.8125 rem, uppercase. Letter spacing +0.12 em.</dd>
+            <dd>
+              Inter SemiBold (600), 0.8125&nbsp;rem, uppercase. Letter spacing +0.12&nbsp;em.
+            </dd>
           </div>
           <div class="reveal">
             <dt>Features</dt>
             <dd class="type-body">a 0123456789</dd>
-            <dd>Turn on <code>cv11</code> (single-storey a) and <code>ss01</code> (open digits) for all text.</dd>
+            <dd>
+              Turn on <code>cv11</code> (single-storey a) and <code>ss01</code> (open digits) for
+              all text.
+            </dd>
           </div>
           <div class="reveal">
             <dt>Figures</dt>
             <dd class="type-figures">₹1,111<br />₹8,420</dd>
             <dd>
-              Use <code>tabular-nums</code> for numbers that change, such as amounts, counts and dates.
+              Use <code>tabular-nums</code> for numbers that change, such as amounts, counts and
+              dates.
             </dd>
           </div>
           <div class="reveal">
             <dt>Logo</dt>
             <dd>
-              Inter SemiBold (600), letter spacing −0.033 em, drawn as outlines. Do not set the logo
-              in live text.
+              Inter SemiBold (600), letter spacing −0.033&nbsp;em, drawn as outlines. Do not set the
+              logo in live text.
             </dd>
           </div>
         </dl>
@@ -520,15 +533,15 @@ const downloads = [
           <div>
             <dt>In navigation</dt>
             <dd>
-              Ink, Medium (500), no underline, 44 px high. On hover, a 2 px brand green underline.
-              The current page has a deep green one; mark it with <code>aria-current</code>.
+              Ink, Medium (500), no underline, 44&nbsp;px high. On hover, a 2&nbsp;px brand green
+              underline. The current page has a deep green one; mark it with <code>aria-current</code>.
             </dd>
           </div>
           <div>
             <dt>In lists</dt>
             <dd>
-              Ink, no underline, 44 px high. On hover, an underline. A link that shows only an icon
-              gets the 2 px brand green underline of navigation.
+              Ink, no underline, 44&nbsp;px high. On hover, an underline. A link that shows only an
+              icon gets the 2&nbsp;px brand green underline of navigation.
             </dd>
           </div>
           <div>
@@ -551,15 +564,15 @@ const downloads = [
           <div>
             <dt>Primary</dt>
             <dd>
-              Ink fill, white label, SemiBold (600). Fully round, 3 rem high or more. On hover, a
-              brand green shadow of 6 px and a lift of 2 px.
+              Ink fill, white label, SemiBold (600). Fully round, 3&nbsp;rem high or more. On hover,
+              a brand green shadow of 6&nbsp;px and a lift of 2&nbsp;px.
             </dd>
           </div>
           <div>
             <dt>Quiet</dt>
             <dd>
-              No fill, an ink ring of 1.5 px and an ink label. On hover, a white fill, or a paper
-              fill on a white surface.
+              No fill, an ink ring of 1.5&nbsp;px and an ink label. On hover, a white fill, or a
+              paper fill on a white surface.
             </dd>
           </div>
           <div>
@@ -607,7 +620,7 @@ const downloads = [
           </div>
           <div>
             <dt>Fields</dt>
-            <dd>White fill, a 1 px border, round corners, 44 px high or more.</dd>
+            <dd>White fill, a 1&nbsp;px border, round corners, 44&nbsp;px high or more.</dd>
           </div>
           <div>
             <dt>Choices</dt>
@@ -621,48 +634,69 @@ const downloads = [
       </div>
 
       <h3 class="subhead reveal">Surfaces, icons and motion</h3>
-      <dl class="rules reveal">
-        <div>
-          <dt>Cards</dt>
-          <dd>
-            Put a light card on a ground of another tone: white on paper, or paper on white. Round
-            its corners, and give an item inside it a smaller radius.
-          </dd>
+      <div class="demo reveal">
+        <div class="card-sample">
+          <span>
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M12 4v11m-5-5 5 5 5-5M5 20h14"></path>
+            </svg>
+            Downloads
+          </span>
         </div>
-        <div>
-          <dt>Edges</dt>
-          <dd>
-            Separate with space first. Where a line is necessary, draw 1 px of ink at 10–15 %.
-            Cards have no drop shadow.
-          </dd>
-        </div>
-        <div>
-          <dt>Dark interfaces</dt>
-          <dd>
-            Public pages are light. An internal tool can use ink as its ground, with the same tokens
-            and the same contrast pairs.
-          </dd>
-        </div>
-        <div>
-          <dt>Interface icons</dt>
-          <dd>
-            Lines on a 24 px grid, a 2 px stroke, round ends and joins, in the colour of the text
-            next to them.
-          </dd>
-        </div>
-        <div>
-          <dt>Motion</dt>
-          <dd>
-            CSS only, and only when the reader allows motion. A hover or a state change takes 300 ms
-            or less. The logo can build itself part by part, as on this page, and ends in its fixed
-            form. A move to another page of a website cross-fades, with a CSS view transition.
-          </dd>
-        </div>
-        <div>
-          <dt>No motion only</dt>
-          <dd>Show each change with colour, a line or text too, so that it reads when still.</dd>
-        </div>
-      </dl>
+        <dl class="rules">
+          <div>
+            <dt>Cards</dt>
+            <dd>
+              Put a light card on a ground of another tone: white on paper, or paper on white. Round
+              its corners, and give an item inside it a smaller radius.
+            </dd>
+          </div>
+          <div>
+            <dt>Edges</dt>
+            <dd>
+              Separate with space first. Where a line is necessary, draw 1&nbsp;px of ink at
+              10–15&nbsp;%. Cards have no drop shadow.
+            </dd>
+          </div>
+          <div>
+            <dt>Dark interfaces</dt>
+            <dd>
+              Public pages are light. An internal tool can use ink as its ground, with the same
+              tokens and the same contrast pairs.
+            </dd>
+          </div>
+          <div>
+            <dt>Interface icons</dt>
+            <dd>
+              Lines on a 24&nbsp;px grid, a 2&nbsp;px stroke, round ends and joins, in the colour of
+              the text next to them.
+            </dd>
+          </div>
+          <div>
+            <dt>Motion</dt>
+            <dd>
+              CSS only, and only when the reader allows motion. A hover or a state change takes
+              300&nbsp;ms or less. The logo can build itself part by part, as on this page, and ends
+              in its fixed form. A move to another page of a website cross-fades, with a CSS view
+              transition.
+            </dd>
+          </div>
+          <div>
+            <dt>No motion only</dt>
+            <dd>Show each change with colour, a line or text too, so that it reads when still.</dd>
+          </div>
+        </dl>
+      </div>
     </Section>
 
     <Section id="voice" number="07" title="Voice" tone="ink">
@@ -670,46 +704,39 @@ const downloads = [
         People give, nominate, vote and decide where the money goes. Write so that each person can
         take part.
       </p>
-      <ol class="voice">
+      <dl class="rules voice">
         {
           voice.map(([word, rule], i) => (
-            <li class="voice-item reveal" style={`--i: ${i % 3}`}>
-              <span class="voice-number">{String(i + 1).padStart(2, "0")}</span>
-              <h3>{word}</h3>
-              <p>{rule}</p>
-            </li>
-          ))
-        }
-      </ol>
-
-      <h3 class="subhead reveal">Words</h3>
-      <dl class="rules reveal">
-        {
-          words.map(([term, rule]) => (
-            <div>
-              <dt>{term}</dt>
+            <div class="reveal">
+              <dt>
+                <span class="voice-number">{String(i + 1).padStart(2, "0")}</span>
+                {word}
+              </dt>
               <dd>{rule}</dd>
             </div>
           ))
         }
       </dl>
 
-      <h3 class="subhead reveal">Writing</h3>
-      <dl class="rules reveal">
-        {
-          writing.map(([term, rule]) => (
-            <div>
-              <dt>{term}</dt>
-              <dd>{rule}</dd>
-            </div>
-          ))
-        }
-      </dl>
+      <div class="split">
+        <h3 class="subhead reveal">Writing</h3>
+        <dl class="rules reveal">
+          {
+            writing.map(([term, rule]) => (
+              <div>
+                <dt>{term}</dt>
+                <dd>{rule}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
     </Section>
 
     <Section id="downloads" number="08" title="Downloads" tone="white">
       <p slot="intro">
-        Use the files as they are. Credit the logo as “© 2026 FOSS United Community, CC BY-ND 4.0”.
+        Use the files as they are. Credit the logo as “© 2026 FOSS United Community,
+        CC&nbsp;BY-ND&nbsp;4.0”.
       </p>
       <div class="downloads">
         {
@@ -757,8 +784,8 @@ const downloads = [
         <li><a href="https://creativecommons.org/licenses/by-nd/4.0/">CC BY-ND 4.0</a></li>
       </ul>
       <p>
-        © 2026 FOSS United Community. The brand assets are under CC BY-ND 4.0. The build scripts are
-        under the MIT licence.
+        © 2026 FOSS United Community. The brand assets are under CC&nbsp;BY-ND&nbsp;4.0. The build
+        scripts are under the MIT licence.
       </p>
     </div>
   </footer>
