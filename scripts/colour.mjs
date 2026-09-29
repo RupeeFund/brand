@@ -18,6 +18,7 @@ const PAIRS = [
   ["text", "paper", "ink"],
   ["text", "brand-200", "ink"],
   ["text", "brand", "ink"],
+  ["text", "ink", "brand"],
   ["text", "error", "white"],
   ["text", "error", "card"],
   ["text", "error", "paper"],
