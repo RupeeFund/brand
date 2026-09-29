@@ -955,9 +955,30 @@ code {
 
 .rules {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
-  gap: 1.5rem 2rem;
+  gap: 0 2rem;
   margin: 0 0 2.5rem;
+}
+
+.rules > div {
+  padding: 1rem 0 1.5rem;
+  border-top: 1px solid color-mix(in srgb, currentColor 15%, transparent);
+}
+
+@media (min-width: 40rem) {
+  .rules:has(> :nth-child(4)) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 64rem) {
+  .rules,
+  .rules:has(> :nth-child(4)) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .rules:has(> :nth-child(4):last-child) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
 
 .rules dt {

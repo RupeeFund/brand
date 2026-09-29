@@ -44,11 +44,11 @@ const pairs = contrastPairs(colours);
 const dark = new Set(["brand-fg", "brand-900", "ink", "ink-2", "ink-3", "error"]);
 
 const words = [
-  ["contribute, contribution", "Not “donate” or “donation”. The money that a person gives."],
-  ["intended amount", "Not “pledge”. The amount a person plans to give. It is not a commitment."],
+  ["Contribute, not donate", "Write “contribute” and “contribution” for the money a person gives."],
+  ["Intended amount, not pledge", "The amount a person plans to give. It is not a commitment."],
   [
-    "No promises",
-    "Not “phase 2”, “endowment” or “in perpetuity”. Promise no later plan and no fund that lasts for ever.",
+    "Only what is true now",
+    "Do not write “phase 2”, “endowment” or “in perpetuity”. Promise no later plan.",
   ],
 ];
 
@@ -403,7 +403,8 @@ const downloads = [
       <h3 class="subhead reveal">Colour pairs that pass</h3>
       <p class="reveal note">
         Text needs a contrast of 4.5:1 or more. Shapes and icons need 3:1 or more (WCAG 2.2). Brand
-        green on white is 2.66:1, so do not use it for text or controls. The logo is an exception.
+        green on white is 2.66:1, so do not use it for text or controls. The logo is an exception. A
+        surface can add an accent colour, for example in an illustration, if its text pairs pass.
       </p>
       <dl class="rules reveal">
         <div>
@@ -424,13 +425,6 @@ const downloads = [
         <div>
           <dt>Focus</dt>
           <dd>Show a solid 2 px ring. Use deep green on light surfaces and white on ink.</dd>
-        </div>
-        <div>
-          <dt>Accents</dt>
-          <dd>
-            A surface can add an accent colour, for example in an illustration. Text on it needs
-            4.5:1 or more.
-          </dd>
         </div>
       </dl>
       <ul class="pairs">
@@ -537,17 +531,13 @@ const downloads = [
           <div>
             <dt>In navigation</dt>
             <dd>
-              Ink, Medium (500), no underline. On hover, a 2 px brand green underline. The current
-              page has a deep green one; mark it with <code>aria-current</code>.
+              Ink, Medium (500), no underline, 44 px high. On hover, a 2 px brand green underline.
+              The current page has a deep green one; mark it with <code>aria-current</code>.
             </dd>
           </div>
           <div>
             <dt>In lists</dt>
-            <dd>Ink, no underline. On hover, an underline.</dd>
-          </div>
-          <div>
-            <dt>Size</dt>
-            <dd>Give a link that stands alone a target 44 px high or more.</dd>
+            <dd>Ink, no underline, 44 px high. On hover, an underline.</dd>
           </div>
           <div>
             <dt>New tab</dt>
@@ -698,7 +688,6 @@ const downloads = [
       </ol>
 
       <h3 class="subhead reveal">Words</h3>
-      <p class="note reveal">These rules apply to the text that people read.</p>
       <dl class="rules reveal">
         {
           words.map(([term, rule]) => (
