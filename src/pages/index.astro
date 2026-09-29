@@ -534,22 +534,23 @@ const downloads = [
           <div>
             <dt>In text</dt>
             <dd>
-              Deep green on light surfaces, white on ink. Underline them. On hover, the underline
-              turns solid.
+              Deep green on light surfaces, white on ink, underlined, on one line. On hover, a
+              2&nbsp;px brand green underline grows from the centre.
             </dd>
           </div>
           <div>
             <dt>In navigation</dt>
             <dd>
-              Ink, Medium (500), no underline, 44&nbsp;px high. On hover, a 2&nbsp;px brand green
-              underline. The current page has a deep green one; mark it with <code>aria-current</code>.
+              Ink, Medium (500), no underline, 44&nbsp;px high; mark the current page with
+              <code>aria-current</code>. On hover, a 2&nbsp;px brand green underline grows from the
+              centre, as wide as the text.
             </dd>
           </div>
           <div>
             <dt>In lists</dt>
             <dd>
-              Ink, no underline, 44&nbsp;px high. On hover, an underline. A link that shows only an
-              icon gets the 2&nbsp;px brand green underline of navigation.
+              Ink, no underline, 44&nbsp;px high. On hover, a 2&nbsp;px brand green underline grows
+              from the centre, as wide as the text or the icon.
             </dd>
           </div>
           <div>
@@ -764,7 +765,7 @@ const downloads = [
                   <li>
                     <a href={f.path} download>
                       <span>
-                        {f.label}
+                        <span class="download-label">{f.label}</span>
                         <span class="download-file">{f.path.split("/").at(-1)}</span>
                       </span>
                       <span class="download-size">{f.size}</span>

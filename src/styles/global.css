@@ -57,10 +57,18 @@ a {
   text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
+  background: linear-gradient(var(--color-brand), var(--color-brand)) 50% 100% / 0 2px no-repeat;
 }
 
-a:hover {
-  text-decoration-color: currentColor;
+@media (hover: hover) {
+  a:hover,
+  .download a:hover .download-label {
+    background-size: 100% 2px;
+  }
+}
+
+:is(p, dd) a {
+  white-space: nowrap;
 }
 
 .tone-ink a {
@@ -110,6 +118,7 @@ a:hover {
 }
 
 .nav-logo {
+  background: none;
   display: flex;
   flex: none;
   align-items: center;
@@ -143,12 +152,7 @@ a:hover {
   white-space: nowrap;
   color: var(--color-ink);
   text-decoration: none;
-  background: linear-gradient(var(--color-brand), var(--color-brand)) 0 calc(100% - 0.5rem) / 0 2px
-    no-repeat;
-}
-
-.nav-links a:hover {
-  background-size: 100% 2px;
+  background-position-y: calc(100% - 0.5rem);
 }
 
 @media (max-width: 60rem) {
@@ -1172,11 +1176,11 @@ code {
   text-decoration: none;
   font-size: 0.9375rem;
   font-weight: 500;
+  background: none;
 }
 
-.download a:hover > span:first-child {
-  text-decoration: underline;
-  text-underline-offset: 3px;
+.download-label {
+  background: linear-gradient(var(--color-brand), var(--color-brand)) 50% 100% / 0 2px no-repeat;
 }
 
 .download-file {
@@ -1201,6 +1205,7 @@ code {
 
 .footer-head a {
   display: block;
+  background: none;
 }
 
 .footer-logo {
@@ -1234,10 +1239,7 @@ code {
   align-items: center;
   min-height: 2.75rem;
   text-decoration: none;
-}
-
-.footer-links a:hover {
-  text-decoration-line: underline;
+  background-position-y: calc(50% + 0.7em);
 }
 
 .not-found {
@@ -1258,12 +1260,9 @@ code {
     scroll-behavior: smooth;
   }
 
-  .nav-links a {
+  a,
+  .download-label {
     transition: background-size 300ms var(--ease-out);
-  }
-
-  a {
-    transition: text-decoration-color 150ms;
   }
 
   .button {
