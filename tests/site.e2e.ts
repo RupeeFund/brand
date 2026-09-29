@@ -4,7 +4,6 @@ import { expect, test } from "@playwright/test";
 const exports: string[] = JSON.parse(readFileSync("assets.json", "utf8")).exports.map(
   ({ output }: { output: string }) => output.replace(/^exports/, ""),
 );
-const sections = ["name", "logo", "icon", "colour", "type", "voice", "downloads"];
 
 test("loads only same-origin files and logs no errors", async ({ page, baseURL }) => {
   const origins = new Set<string>();
@@ -20,16 +19,18 @@ test("loads only same-origin files and logs no errors", async ({ page, baseURL }
   expect(errors).toEqual([]);
 });
 
-test("shows every section and resolves every nav link", async ({ page }) => {
+test("links every section from the nav", async ({ page }) => {
   await page.goto("/");
 
-  for (const id of sections) {
-    await expect(page.locator(`#${id} h2`)).toBeVisible();
-  }
-  for (const href of await page
+  const sections = await page
+    .locator("main section[id]")
+    .evaluateAll((nodes) => nodes.map((node) => `#${node.id}`));
+  const links = await page
     .locator(".nav-links a")
-    .evaluateAll((links) => links.map((link) => link.getAttribute("href")))) {
-    await expect(page.locator(href!)).toHaveCount(1);
+    .evaluateAll((nodes) => nodes.map((node) => node.getAttribute("href")));
+  expect(links).toEqual(sections);
+  for (const id of sections) {
+    await expect(page.locator(`${id} h2`)).toBeVisible();
   }
 });
 

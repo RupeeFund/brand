@@ -13,6 +13,7 @@ const sections = [
   ["icon", "Icon"],
   ["colour", "Colour"],
   ["type", "Type"],
+  ["interface", "Interface"],
   ["voice", "Voice"],
   ["downloads", "Downloads"],
 ];
@@ -33,7 +34,7 @@ const swatches = [
   ["ink-2", "Graphite", "Secondary text."],
   ["ink-3", "Slate", "Captions and small print."],
   ["paper", "Paper", "The page background."],
-  ["card", "Card", "Cards on paper."],
+  ["card", "Card", "Notes and quiet callouts on white or paper."],
   ["white", "White", "Surfaces, and the wordmark on dark backgrounds."],
   ["error", "Error", "Error text and error icons."],
   ["border", "Border", "Boundaries of inputs and controls."],
@@ -41,6 +42,27 @@ const swatches = [
 const swatchGroups = [swatches.slice(0, 5), swatches.slice(5, 11), swatches.slice(11)];
 const pairs = contrastPairs(colours);
 const dark = new Set(["brand-fg", "brand-900", "ink", "ink-2", "ink-3", "error"]);
+
+const words = [
+  ["contribute, contribution", "Not “donate” or “donation”. The money that a person gives."],
+  ["intended amount", "Not “pledge”. The amount a person plans to give. It is not a commitment."],
+  [
+    "No promises",
+    "Not “phase 2”, “endowment” or “in perpetuity”. Promise no later plan and no fund that lasts for ever.",
+  ],
+];
+
+const writing = [
+  [
+    "Case",
+    "Use sentence case for headings, buttons, labels and links. CSS can set a small label in capitals.",
+  ],
+  ["Page titles", "Write “<Page> — The Rupee Fund”."],
+  ["Money", "Write ₹ and group the digits the Indian way: ₹1,00,000."],
+  ["Dates", "Write the day, the month in full and the year: 29 September 2026."],
+  ["Marks", "Use curly quotes, an en dash for a range (10–20) and one ellipsis character (…)."],
+  ["Errors", "Say what failed and what to do next. Put the message next to the field."],
+];
 
 const voice = [
   ["Trustworthy", "Say what happens to the money. Give numbers and dates. Do not promise more."],
@@ -71,22 +93,22 @@ const downloads = [
     previewSize: [80, 80],
     files: [
       ["mark.svg", "SVG, 48 px and larger"],
-      ["mark-small.svg", "SVG, 16 to 32 px"],
+      ["mark-small.svg", "SVG, 16–32 px"],
       ["web/icon-192.png", "PNG, 192 × 192"],
       ["web/icon-512.png", "PNG, 512 × 512"],
       ["web/icon-maskable-512.png", "PNG, 512 × 512, maskable"],
     ],
   },
   {
-    title: "Website",
+    title: "Web files",
     preview: "/web/favicon.svg",
     previewSize: [80, 80],
     files: [
       ["web/favicon.svg", "Favicon, SVG"],
       ["web/favicon.ico", "Favicon, ICO 16, 32, 48"],
       ["web/apple-touch-icon.png", "Apple touch icon, 180 × 180"],
-      ["web/logo.svg", "Header logo, SVG"],
-      ["web/logo-dark.svg", "Header logo for dark backgrounds, SVG"],
+      ["web/logo.svg", "Logo for light backgrounds, SVG"],
+      ["web/logo-dark.svg", "Logo for dark backgrounds, SVG"],
       ["web/og-card.png", "Social card, 1200 × 630"],
     ],
   },
@@ -133,22 +155,18 @@ const downloads = [
         <Lockup label="The Rupee Fund" />
       </div>
       <div class="hero-copy">
-        <div class="hero-head" style="--step: 0">
-          <p class="eyebrow">Brand guidelines</p>
-          <h1 class="hero-title" id="hero-title">Many small amounts, one shared fund.</h1>
-        </div>
-        <div class="hero-body" style="--step: 1">
-          <p class="lede">
-            The Rupee Fund helps people in India give a small amount each month to the free and
-            open-source software they use. This page shows how the brand looks and sounds, and gives
-            you the files.
-          </p>
-          <div class="actions">
-            <a class="button button-primary" href="#downloads">
-              Get the logo <span class="arrow" aria-hidden="true">↓</span>
-            </a>
-            <a class="button button-quiet" href="#name">Read the guidelines</a>
-          </div>
+        <p class="eyebrow">Brand guidelines</p>
+        <h1 class="hero-title" id="hero-title">Many small amounts, one shared fund.</h1>
+        <p class="lede">
+          The Rupee Fund is an independent community fund for free and open-source software in
+          India. This page shows how the brand looks and sounds on every surface, and gives you the
+          files.
+        </p>
+        <div class="actions">
+          <a class="button button-primary" href="#downloads">
+            Get the logo <span class="arrow" aria-hidden="true">↓</span>
+          </a>
+          <a class="button button-quiet" href="#name">Read the guidelines</a>
         </div>
       </div>
     </section>
@@ -161,7 +179,7 @@ const downloads = [
           <span class="name-example">The Rupee Fund</span>
           <span class="name-note"
             >In sentences, titles and alt text. Always with “The”, with a capital “T” in a sentence
-            too: “donate to The Rupee Fund”.</span
+            too: “contribute to The Rupee Fund”.</span
           >
         </li>
         <li class="name-row reveal">
@@ -186,6 +204,20 @@ const downloads = [
             >Where a web manifest <code>short_name</code> or an app label needs it, you can use
             “TRF”.</span
           >
+        </li>
+        <li class="name-row reveal">
+          <span class="name-where">About us</span>
+          <span class="name-example name-sentence">An independent community fund</span>
+          <span class="name-note"
+            >Where a text needs one sentence about us, write: “The Rupee Fund is an independent
+            community fund for free and open-source software in India. FOSS United Foundation is
+            its fiscal host.”</span
+          >
+        </li>
+        <li class="name-row reveal">
+          <span class="name-where">Credit</span>
+          <span class="name-example name-sentence">© 2026 FOSS United Community, CC BY-ND 4.0</span>
+          <span class="name-note">The copyright line for the logo, the icon and the brand files.</span>
         </li>
         <li class="name-row reveal">
           <span class="name-where">In code</span>
@@ -311,10 +343,9 @@ const downloads = [
           <div class="icon-small-grid">
             <img src="/mark-small.svg" alt="The small icon at 16 pixels" width="16" height="16" />
             <img src="/mark-small.svg" alt="The small icon at 32 pixels" width="32" height="32" />
-            <img src="/mark-small.svg" alt="The small icon at 48 pixels" width="48" height="48" />
           </div>
           <figcaption>
-            <code>mark-small.svg</code>, for 16 to 32 px. The bars sit on whole pixels, so the icon
+            <code>mark-small.svg</code>, for 16–32 px. The bars sit on whole pixels, so the icon
             stays sharp.
           </figcaption>
         </figure>
@@ -344,8 +375,9 @@ const downloads = [
 
     <Section id="colour" number="04" title="Colour" tone="white">
       <p slot="intro">
-        Green and ink carry the brand. Paper and white give it room. The same values are in <code
-          >tokens/tokens.json</code
+        Green and ink carry the brand. Paper and white give it room. The tokens hold colours only;
+        each surface sets its own spacing, radius and motion values. Get them as <a
+          href="/tokens.json">tokens.json</a
         >.
       </p>
       {
@@ -393,12 +425,19 @@ const downloads = [
           <dt>Focus</dt>
           <dd>Show a solid 2 px ring. Use deep green on light surfaces and white on ink.</dd>
         </div>
+        <div>
+          <dt>Accents</dt>
+          <dd>
+            A surface can add an accent colour, for example in an illustration. Text on it needs
+            4.5:1 or more.
+          </dd>
+        </div>
       </dl>
       <ul class="pairs">
         {
           pairs.map((p) => (
             <li
-              class="pair reveal"
+              class:list={["pair", "reveal", { "pair-graphic": p.kind === "graphic" }]}
               style={`background: var(--color-${p.bg}); color: var(--color-${p.fg})`}
             >
               <span class="pair-sample">{p.kind === "text" ? "Aa" : "₹"}</span>
@@ -410,41 +449,14 @@ const downloads = [
           ))
         }
       </ul>
-
-      <h3 class="subhead reveal">Buttons</h3>
-      <div class="button-demo reveal">
-        <div class="actions">
-          <span class="button button-primary">Primary</span>
-          <span class="button button-quiet">Quiet</span>
-        </div>
-        <dl class="rules">
-          <div>
-            <dt>Primary</dt>
-            <dd>
-              Ink fill, white label, SemiBold (600). Fully round, 3 rem high or more. On hover, a
-              brand green shadow of 6 px and a lift of 2 px.
-            </dd>
-          </div>
-          <div>
-            <dt>Quiet</dt>
-            <dd>No fill, an ink ring of 1.5 px and an ink label. On hover, a white fill.</dd>
-          </div>
-          <div>
-            <dt>Motion</dt>
-            <dd>Move a button only when the reader allows motion.</dd>
-          </div>
-          <div>
-            <dt>Not green</dt>
-            <dd>Do not fill a button with brand green under a white label. The contrast is 2.66:1.</dd>
-          </div>
-        </dl>
-      </div>
     </Section>
 
     <Section id="type" number="05" title="Type">
       <p slot="intro">
-        The brand uses Inter, by Rasmus Andersson, under the SIL Open Font License. Get it from{" "}
-        <a href="https://rsms.me/inter/">rsms.me/inter</a>.
+        The brand uses Inter, by Rasmus Andersson, under the SIL Open Font License. Serve it from
+        your own site: the release at <a href="https://rsms.me/inter/">rsms.me/inter</a> or the
+        <code>@fontsource-variable/inter</code> package. Load no font from Google. Each surface sets
+        its own type sizes.
       </p>
       <div class="type-grid">
         <div class="specimen reveal">
@@ -457,13 +469,13 @@ const downloads = [
         <dl class="type-rules">
           <div class="reveal">
             <dt>Headings</dt>
-            <dd class="type-heading">Give a little, every month.</dd>
+            <dd class="type-heading">Plain words, set in Inter.</dd>
             <dd>Inter SemiBold (600). Letter spacing −0.033 em.</dd>
           </div>
           <div class="reveal">
             <dt>Text</dt>
             <dd class="type-body">
-              Your contribution goes to the projects that the community nominates and votes for.
+              Short sentences and common words help each reader, in each language they read.
             </dd>
             <dd>Inter Regular (400). Line height 1.6.</dd>
           </div>
@@ -503,7 +515,172 @@ const downloads = [
       </div>
     </Section>
 
-    <Section id="voice" number="06" title="Voice" tone="ink">
+    <Section id="interface" number="06" title="Interface" tone="white">
+      <p slot="intro">
+        Links, buttons, forms, cards, icons and motion. Each website or app builds them in its own
+        code and sets its own layout. The layout of this page is not a template.
+      </p>
+
+      <h3 class="subhead subhead-first reveal">Links</h3>
+      <div class="demo reveal">
+        <p class="demo-text">
+          Read the <a href="#colour">colour pairs</a> before you choose a text colour.
+        </p>
+        <dl class="rules">
+          <div>
+            <dt>In text</dt>
+            <dd>
+              Deep green on light surfaces, white on ink. Underline them. On hover, the underline
+              turns solid.
+            </dd>
+          </div>
+          <div>
+            <dt>In navigation</dt>
+            <dd>
+              Ink, Medium (500), no underline. On hover, a 2 px brand green underline. The current
+              page has a deep green one; mark it with <code>aria-current</code>.
+            </dd>
+          </div>
+          <div>
+            <dt>In lists</dt>
+            <dd>Ink, no underline. On hover, an underline.</dd>
+          </div>
+          <div>
+            <dt>Size</dt>
+            <dd>Give a link that stands alone a target 44 px high or more.</dd>
+          </div>
+          <div>
+            <dt>New tab</dt>
+            <dd>
+              A link that opens a new tab ends with an arrow and tells a screen reader “opens in a
+              new tab”.
+            </dd>
+          </div>
+        </dl>
+      </div>
+
+      <h3 class="subhead reveal">Buttons</h3>
+      <div class="demo reveal">
+        <div class="actions">
+          <span class="button button-primary">Primary</span>
+          <span class="button button-quiet">Quiet</span>
+        </div>
+        <dl class="rules">
+          <div>
+            <dt>Primary</dt>
+            <dd>
+              Ink fill, white label, SemiBold (600). Fully round, 3 rem high or more. On hover, a
+              brand green shadow of 6 px and a lift of 2 px.
+            </dd>
+          </div>
+          <div>
+            <dt>Quiet</dt>
+            <dd>No fill, an ink ring of 1.5 px and an ink label. On hover, a white fill.</dd>
+          </div>
+          <div>
+            <dt>One primary</dt>
+            <dd>Give each view one primary button. Other actions are quiet buttons or links.</dd>
+          </div>
+          <div>
+            <dt>Not green</dt>
+            <dd>Do not fill a button with brand green under a white label. The contrast is 2.66:1.</dd>
+          </div>
+        </dl>
+      </div>
+
+      <h3 class="subhead reveal">Forms</h3>
+      <div class="demo reveal">
+        <div class="form-demo">
+          <div class="field">
+            <label for="demo-email">Email</label>
+            <input id="demo-email" type="email" value="name@example.com" readonly />
+          </div>
+          <fieldset class="field">
+            <legend>Language</legend>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="demo-language" checked /> English</label>
+              <label class="choice"><input type="radio" name="demo-language" /> <span lang="hi">हिन्दी</span></label>
+            </div>
+          </fieldset>
+          <div class="field">
+            <label for="demo-name">Name <span class="optional">(optional)</span></label>
+            <input
+              id="demo-name"
+              type="text"
+              value="R"
+              readonly
+              aria-invalid="true"
+              aria-describedby="demo-name-error"
+            />
+            <p class="field-error" id="demo-name-error">A name needs two letters or more. Enter your full name, or leave it empty.</p>
+          </div>
+        </div>
+        <dl class="rules">
+          <div>
+            <dt>Labels</dt>
+            <dd>A visible label above each field, SemiBold (600). Mark optional fields only.</dd>
+          </div>
+          <div>
+            <dt>Fields</dt>
+            <dd>White fill, a 1 px border, round corners, 44 px high or more.</dd>
+          </div>
+          <div>
+            <dt>Choices</dt>
+            <dd>A checked choice has a deep green border and a mist fill.</dd>
+          </div>
+          <div>
+            <dt>Errors</dt>
+            <dd>Under the field, in error red. Say what failed and what to do next.</dd>
+          </div>
+        </dl>
+      </div>
+
+      <h3 class="subhead reveal">Surfaces, icons and motion</h3>
+      <dl class="rules reveal">
+        <div>
+          <dt>Cards</dt>
+          <dd>
+            Put a light card on a ground of another tone: white on paper, or paper on white. Round
+            its corners, and give an item inside it a smaller radius.
+          </dd>
+        </div>
+        <div>
+          <dt>Edges</dt>
+          <dd>
+            Separate with space first. Where a line is necessary, draw 1 px of ink at 10–15 %.
+            Cards have no drop shadow.
+          </dd>
+        </div>
+        <div>
+          <dt>Dark interfaces</dt>
+          <dd>
+            Public pages are light. An internal tool can use ink as its ground, with the same tokens
+            and the same contrast pairs.
+          </dd>
+        </div>
+        <div>
+          <dt>Interface icons</dt>
+          <dd>
+            Lines on a 24 px grid, a 2 px stroke, round ends and joins, in the colour of the text
+            next to them.
+          </dd>
+        </div>
+        <div>
+          <dt>Motion</dt>
+          <dd>
+            CSS only, and only when the reader allows motion. A hover or a state change takes 300 ms
+            or less. The logo can build itself part by part, as on this page, and ends in its fixed
+            form.
+          </dd>
+        </div>
+        <div>
+          <dt>No motion only</dt>
+          <dd>Show each change with colour, a line or text too, so that it reads when still.</dd>
+        </div>
+      </dl>
+    </Section>
+
+    <Section id="voice" number="07" title="Voice" tone="ink">
       <p slot="intro">
         People give, nominate, vote and decide where the money goes. Write so that each person can
         take part.
@@ -521,12 +698,32 @@ const downloads = [
       </ol>
 
       <h3 class="subhead reveal">Words</h3>
-      <p class="words reveal">
-        Call the page and the link that list the volunteers “People”. Do not write “Team”.
-      </p>
+      <p class="note reveal">These rules apply to the text that people read.</p>
+      <dl class="rules reveal">
+        {
+          words.map(([term, rule]) => (
+            <div>
+              <dt>{term}</dt>
+              <dd>{rule}</dd>
+            </div>
+          ))
+        }
+      </dl>
+
+      <h3 class="subhead reveal">Writing</h3>
+      <dl class="rules reveal">
+        {
+          writing.map(([term, rule]) => (
+            <div>
+              <dt>{term}</dt>
+              <dd>{rule}</dd>
+            </div>
+          ))
+        }
+      </dl>
     </Section>
 
-    <Section id="downloads" number="07" title="Downloads" tone="white">
+    <Section id="downloads" number="08" title="Downloads" tone="white">
       <p slot="intro">
         Use the files as they are. Credit the logo as “© 2026 FOSS United Community, CC BY-ND 4.0”.
       </p>
@@ -568,7 +765,7 @@ const downloads = [
       <a href="https://rupeefund.org" aria-label="The Rupee Fund, rupeefund.org">
         <img class="footer-logo" src="/lockup-dark.svg" alt="" width="184" height="80" />
       </a>
-      <p>A community initiative from FOSS United</p>
+      <p>An independent community fund. FOSS United Foundation is its fiscal host.</p>
     </div>
     <div class="footer-base">
       <ul class="footer-links">
