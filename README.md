@@ -30,7 +30,7 @@ pnpm build        # the exports, then the website in dist/
 pnpm test:e2e     # the browser tests
 ```
 
-No CI runs these checks. Run `pnpm check`, `pnpm build` and `pnpm test:e2e` before you push. `docs/deploy.md` tells how the website deploys.
+CI fails when the committed `exports/` differs from the build. It runs no other check. Run `pnpm check`, `pnpm build` and `pnpm test:e2e` before you push. `docs/deploy.md` tells how the website deploys.
 
 ## Licence
 
