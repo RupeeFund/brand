@@ -4,6 +4,7 @@ import { expect, test } from "@playwright/test";
 const exports: string[] = JSON.parse(readFileSync("assets.json", "utf8")).exports.map(
   ({ output }: { output: string }) => output.replace(/^exports/, ""),
 );
+const illustrations = exports.filter((path) => path.startsWith("/illustration/"));
 
 test("loads only same-origin files and logs no errors", async ({ page, baseURL }) => {
   const origins = new Set<string>();
@@ -49,6 +50,21 @@ test("serves every download and head icon", async ({ page, request }) => {
     expect(response.status(), path).toBe(200);
     expect((await response.body()).length, path).toBeGreaterThan(0);
   }
+});
+
+test("shows the seven illustration sprites", async ({ page }) => {
+  await page.goto("/");
+  await page.waitForLoadState("networkidle");
+
+  const images = await page.locator("#illustration .sprite-art img").evaluateAll((nodes) =>
+    nodes.map((node) => {
+      const image = node as HTMLImageElement;
+      return { path: new URL(image.src).pathname, width: image.naturalWidth };
+    }),
+  );
+  expect(images).toHaveLength(2 * illustrations.length);
+  expect(new Set(images.map(({ path }) => path))).toEqual(new Set(illustrations));
+  for (const image of images) expect(image.width, image.path).toBeGreaterThan(0);
 });
 
 test("serves the design tokens", async ({ request }) => {

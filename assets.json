@@ -99,6 +99,41 @@
         "logoWidth": 760
       },
       "output": "exports/github/social-preview.png"
+    },
+    {
+      "master": "illustration/seedling",
+      "format": "svg",
+      "output": "exports/illustration/seedling.svg"
+    },
+    {
+      "master": "illustration/sapling",
+      "format": "svg",
+      "output": "exports/illustration/sapling.svg"
+    },
+    {
+      "master": "illustration/mature-tree",
+      "format": "svg",
+      "output": "exports/illustration/mature-tree.svg"
+    },
+    {
+      "master": "illustration/winter",
+      "format": "svg",
+      "output": "exports/illustration/winter.svg"
+    },
+    {
+      "master": "illustration/summer",
+      "format": "svg",
+      "output": "exports/illustration/summer.svg"
+    },
+    {
+      "master": "illustration/monsoon",
+      "format": "svg",
+      "output": "exports/illustration/monsoon.svg"
+    },
+    {
+      "master": "illustration/post-monsoon",
+      "format": "svg",
+      "output": "exports/illustration/post-monsoon.svg"
     }
   ]
 }

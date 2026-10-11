@@ -699,6 +699,10 @@ code {
   list-style: none;
 }
 
+.swatches-art {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 @media (min-width: 40rem) {
   .swatches {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -733,6 +737,11 @@ code {
   font-weight: 600;
   font-variant-numeric: tabular-nums;
   text-transform: uppercase;
+}
+
+.swatches-art .swatch-chip {
+  height: 4rem;
+  margin-bottom: 0.5rem;
 }
 
 .swatch-name {
@@ -901,6 +910,48 @@ code {
   padding: clamp(1.5rem, 3vw, 2.5rem);
   border-radius: 1.25rem;
   background: var(--color-paper);
+}
+
+.tone-paper .demo {
+  background: var(--color-white);
+}
+
+.sprites {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 2rem 3rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sprite {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.sprite-art {
+  display: flex;
+  align-items: end;
+  gap: 1rem;
+}
+
+.sprite-art img {
+  display: block;
+  image-rendering: pixelated;
+}
+
+.sprite figcaption {
+  font-size: 0.9375rem;
+  color: var(--color-ink-2);
+}
+
+.sprite-name {
+  display: block;
+  font-weight: 600;
+  color: var(--color-ink);
 }
 
 .demo .rules {

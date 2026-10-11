@@ -1,5 +1,5 @@
 ---
-import { statSync } from "node:fs";
+import { readFileSync, statSync } from "node:fs";
 import Base from "../layouts/Base.astro";
 import Lockup from "../components/Lockup.astro";
 import Section from "../components/Section.astro";
@@ -14,6 +14,7 @@ const sections = [
   ["colour", "Colour"],
   ["type", "Type"],
   ["interface", "Interface"],
+  ["illustration", "Illustration"],
   ["voice", "Voice"],
   ["downloads", "Downloads"],
 ];
@@ -91,6 +92,73 @@ const size = (path: string) => {
   const bytes = statSync(`exports/${path}`).size;
   return bytes < 1024 ? `${bytes} B` : `${(bytes / 1024).toFixed(1)} KB`;
 };
+const spriteGroups = [
+  [
+    ["seedling", "Seedling"],
+    ["sapling", "Sapling"],
+    ["mature-tree", "Mature tree"],
+  ],
+  [
+    ["winter", "Winter"],
+    ["summer", "Summer"],
+    ["monsoon", "Monsoon"],
+    ["post-monsoon", "Post-monsoon"],
+  ],
+].map((group) =>
+  group.map(([slug, name]) => {
+    const svg = readFileSync(`masters/illustration/${slug}.svg`, "utf8");
+    const [, , width, height] = svg.match(/viewBox="([^"]*)"/)![1].split(" ").map(Number);
+    return { name, width, height, path: `/illustration/${slug}.svg` };
+  }),
+);
+
+const artSwatches = [
+  [
+    ["leaf-mid", "Leaf, lit side"],
+    ["earth-1", "Soil highlight"],
+    ["earth-2", "Wood and soil, light"],
+    ["earth-3", "Wood and soil"],
+    ["earth-4", "Wood and soil, shade"],
+    ["earth-5", "Soil base line"],
+  ],
+  [
+    ["sun-1", "Sun highlight"],
+    ["sun-2", "Sun"],
+    ["sun-3", "Sun shade"],
+    ["sun-4", "Sun deep shade"],
+    ["sun-5", "Sun edge"],
+  ],
+  [
+    ["cloud-1", "Cloud light"],
+    ["cloud-2", "Cloud"],
+    ["cloud-3", "Rain cloud shade"],
+    ["cloud-4", "Cloud underside"],
+    ["cloud-5", "Rain cloud underside"],
+  ],
+  [
+    ["ice-1", "Ice highlight"],
+    ["ice-2", "Ice light"],
+    ["ice-3", "Ice"],
+  ],
+  [
+    ["blue-1", "Ice and rain, light"],
+    ["blue-2", "Ice and rain"],
+    ["blue-3", "Ice and rain, shade"],
+    ["blue-4", "Ice core shade"],
+  ],
+  [
+    ["sparkle", "Sparkle"],
+    ["sparkle-centre", "Sparkle centre"],
+  ],
+].map((group) =>
+  group.map(([name, use]) => ({
+    token: `art-${name}`,
+    name: `art.${name}`,
+    use,
+    hex: colours.get(`color.art.${name}`),
+  })),
+);
+
 const downloads = [
   {
     title: "Logo",
@@ -134,6 +202,17 @@ const downloads = [
       ["github/avatar.png", "Avatar, 500\u00a0×\u00a0500"],
       ["github/social-preview.png", "Social preview, 1280\u00a0×\u00a0640"],
     ],
+  },
+  {
+    title: "Illustration",
+    preview: "/illustration/mature-tree.svg",
+    previewSize: [56, 60],
+    files: spriteGroups
+      .flat()
+      .map(({ name, width, height, path }) => [
+        path.slice(1),
+        `${name}, SVG ${width}\u00a0×\u00a0${height}`,
+      ]),
   },
 ].map((group) => ({
   ...group,
@@ -722,7 +801,148 @@ const downloads = [
       </div>
     </Section>
 
-    <Section id="voice" number="07" title="Voice" tone="ink">
+    <Section id="illustration" number="07" title="Illustration">
+      <p slot="intro">
+        Small pixel-art sprites show growth and the funding seasons. They do not replace words, the
+        logo or the interface icons.
+      </p>
+
+      <div class="demo reveal">
+        {
+          spriteGroups.map((group) => (
+            <ul class="sprites">
+              {group.map((sprite) => (
+                <li>
+                  <figure class="sprite">
+                    <div class="sprite-art">
+                      <img
+                        src={sprite.path}
+                        alt=""
+                        width={sprite.width * 2}
+                        height={sprite.height * 2}
+                      />
+                      <img
+                        src={sprite.path}
+                        alt=""
+                        width={sprite.width * 4}
+                        height={sprite.height * 4}
+                      />
+                    </div>
+                    <figcaption>
+                      <span class="sprite-name">{sprite.name}</span>
+                      {sprite.width}&nbsp;×&nbsp;{sprite.height} grid, at 2× and 4×
+                    </figcaption>
+                  </figure>
+                </li>
+              ))}
+            </ul>
+          ))
+        }
+        <dl class="rules">
+          <div>
+            <dt>One family</dt>
+            <dd>
+              Friendly, retro pixel art. Draw each sprite as if one artist made all of them for one
+              game.
+            </dd>
+          </div>
+          <div>
+            <dt>Grid</dt>
+            <dd>
+              Draw each subject on a small grid of whole pixels. Fit the grid to the subject, for
+              example 16&nbsp;×&nbsp;16 or 33&nbsp;×&nbsp;27.
+            </dd>
+          </div>
+          <div>
+            <dt>Outline</dt>
+            <dd>
+              Draw a one-pixel ink outline around each shape. Small marks, such as rain and sparkles,
+              need no outline. Keep all edges square.
+            </dd>
+          </div>
+          <div>
+            <dt>Light</dt>
+            <dd>
+              Light comes from the upper left, so the lower right is darker. Use a small number of
+              tones for each material, usually 2–3.
+            </dd>
+          </div>
+          <div>
+            <dt>Flat colour</dt>
+            <dd>
+              Use solid clusters of colour. Do not use dithering, gradients, blur, soft shadows or
+              anti-aliasing.
+            </dd>
+          </div>
+          <div>
+            <dt>Background</dt>
+            <dd>Keep the background transparent. The surface gives the white or the paper.</dd>
+          </div>
+        </dl>
+      </div>
+
+      <div class="split">
+        <h3 class="subhead reveal">Colour and files</h3>
+        <dl class="rules reveal">
+          <div>
+            <dt>Greens</dt>
+            <dd>
+              Take the greens, the ink and the white from the brand colours.
+              Add <code>art.leaf-mid</code> for the lit side of a leaf.
+            </dd>
+          </div>
+          <div>
+            <dt>Other colours</dt>
+            <dd>
+              Take all other colours from the art palette. Use them only in illustrations, not for
+              text or controls.
+            </dd>
+          </div>
+          <div>
+            <dt>SVG</dt>
+            <dd>
+              Draw with rectangles on whole pixels. Set <code>shape-rendering="crispEdges"</code>.
+            </dd>
+          </div>
+          <div>
+            <dt>PNG</dt>
+            <dd>
+              Scale only by a whole number, with nearest-neighbour scaling. Keep the transparent
+              background.
+            </dd>
+          </div>
+          <div>
+            <dt>Not interface icons</dt>
+            <dd>
+              An illustration is not an interface icon. Do not redraw or pixelate the logo, the
+              favicon or the interface icons.
+            </dd>
+          </div>
+        </dl>
+      </div>
+
+      <h3 class="subhead reveal">Art palette</h3>
+      <p class="note reveal">
+        The colours that illustrations add to the brand colours. Use them only in illustrations.
+      </p>
+      {
+        artSwatches.map((group) => (
+          <ul class="swatches swatches-art">
+            {group.map((s) => (
+              <li class="swatch reveal">
+                <span class="swatch-chip" style={`background: var(--color-${s.token})`} />
+                <span class="swatch-name">{s.use}</span>
+                <code class="swatch-token">{s.name}</code>
+                <span class="swatch-hex">{s.hex}</span>
+              </li>
+            ))}
+          </ul>
+        ))
+      }
+
+    </Section>
+
+    <Section id="voice" number="08" title="Voice" tone="ink">
       <p slot="intro">
         People give, nominate, vote and decide where the money goes. Write so that each person can
         take part. Sound like a friend who explains: warm and sure, clear first and brief second.
@@ -756,7 +976,7 @@ const downloads = [
       </div>
     </Section>
 
-    <Section id="downloads" number="08" title="Downloads" tone="white">
+    <Section id="downloads" number="09" title="Downloads" tone="white">
       <p slot="intro">
         Use the files as they are. Credit the logo as “© 2026 FOSS United Community,
         CC&nbsp;BY-ND&nbsp;4.0”.

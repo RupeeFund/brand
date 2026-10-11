@@ -9,7 +9,9 @@ interface Props {
 
 const { title, description } = Astro.props;
 const colours = tokenColours();
-const tokens = [...colours].map(([name, hex]) => `--${name.replace(".", "-")}: ${hex};`).join(" ");
+const tokens = [...colours]
+  .map(([name, hex]) => `--${name.replaceAll(".", "-")}: ${hex};`)
+  .join(" ");
 const og = new URL("/web/og-card.png", Astro.site);
 ---
 

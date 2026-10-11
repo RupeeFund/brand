@@ -11,7 +11,7 @@ The brand guidelines and the files are at [brand.rupeefund.org](https://brand.ru
 
 | Path                 | Content                                                                   |
 | -------------------- | ------------------------------------------------------------------------- |
-| `masters/`           | The vector masters of the logo and the icons                              |
+| `masters/`           | The vector masters of the logo, the icons and the illustrations           |
 | `tokens/tokens.json` | The colours, in the W3C design tokens format                              |
 | `assets.json`        | The list of exported files                                                |
 | `exports/`           | The exported files. The build writes them. Do not edit them.              |
