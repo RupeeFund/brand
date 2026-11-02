@@ -33,10 +33,10 @@ const swatches = [
   ["ink-2", "Graphite", "Secondary text.", "white"],
   ["ink-3", "Slate", "Captions and small print.", "white"],
   ["paper", "Paper", "The page background."],
-  ["card", "Card", "Notes and quiet callouts on white or paper."],
+  ["card", "Card", "Card fills, notes and quiet callouts on white or paper."],
   ["white", "White", "Surfaces, and the wordmark on dark backgrounds."],
   ["error", "Error", "Error text and error icons.", "white"],
-  ["border", "Border", "Boundaries of inputs and controls."],
+  ["border", "Border", "Thin lines and dividers."],
 ].map(([token, name, use, text = "ink"]) => ({
   token,
   name,
@@ -51,7 +51,7 @@ const pairGroups = ["text", "graphic"].map((kind) => pairs.filter((p) => p.kind 
 const writing = [
   [
     "Case",
-    "Use sentence case for headings, buttons, labels and links. CSS can set a small label in capitals.",
+    "Use sentence case for headings, buttons, labels and links.",
   ],
   ["Page titles", "Write “<Page> — The Rupee Fund”."],
   ["Money", "Write ₹ and group the digits the Indian way: ₹1,00,000."],
@@ -379,7 +379,7 @@ const downloads = [
     <Section id="colour" number="04" title="Colour" tone="white">
       <p slot="intro">
         Green and ink carry the brand. Paper and white give it room. The tokens hold colours only;
-        each surface sets its own spacing, radius and motion values. Get them as <a
+        each surface sets its own spacing and motion values. Get them as <a
           href="/tokens.json">tokens.json</a
         >.
       </p>
@@ -467,7 +467,7 @@ const downloads = [
         The brand uses Inter, by Rasmus Andersson, under the SIL Open Font License. Serve it from
         your own site: the release at <a href="https://rsms.me/inter/">rsms.me/inter</a> or
         the <code>@fontsource-variable/inter</code> package. Load no font from Google. Each surface
-        sets its own type sizes.
+        sets its own type sizes, within the rules below.
       </p>
       <div class="split">
         <div class="specimen reveal">
@@ -481,28 +481,50 @@ const downloads = [
           <div class="reveal">
             <dt>Headings</dt>
             <dd class="type-heading">Plain words, set in Inter.</dd>
-            <dd>Inter SemiBold (600). Letter spacing −0.033&nbsp;em.</dd>
+            <dd>
+              Inter Black (900). Letter spacing −0.03 to −0.04&nbsp;em. Line height 0.9 to 1.05.
+              On a computer, set a page title three steps of the scale above the text. On a home
+              page, the name fills the full width.
+              A small heading, such as a question in a list, can use ExtraBold (800) with a letter
+              spacing of −0.02&nbsp;em.
+            </dd>
           </div>
           <div class="reveal">
             <dt>Text</dt>
             <dd class="type-body">
               Everyday words in clear, natural sentences help each reader, in each language they read.
             </dd>
-            <dd>Inter Regular (400). Line height 1.6.</dd>
+            <dd>
+              Inter Regular (400). Line height 1.6. On a computer, a line holds 50 to 75
+              characters.
+            </dd>
+          </div>
+          <div class="reveal">
+            <dt>Scale</dt>
+            <dd class="type-body">13.4 · 17 · 27.5 · 44.5 · 72&nbsp;px</dd>
+            <dd>
+              On a computer, step each size up from the text by 1.618, the golden ratio. On a
+              phone, take smaller sizes from the steps of 1.272, its square root, such as 21.6, 35
+              and 44.5. A label is one 1.272 step below the text. Use at most five sizes on a page,
+              with labels and text as two of them. Do not add a size between two steps. On a
+              computer, long reading text, such as an article, can go one 1.272 step up, to
+              21.6&nbsp;px, in a wider column. Its labels stay at 13.4&nbsp;px.
+            </dd>
           </div>
           <div class="reveal">
             <dt>Medium</dt>
-            <dd class="type-medium">Sections · Downloads · Colour</dd>
+            <dd class="type-medium">Logo · Web files · GitHub</dd>
             <dd>
-              Inter Medium (500) for navigation, links in lists and short interface text. Not for
-              text or headings.
+              Inter Medium (500) for links in lists and short interface text. Not for text or
+              headings.
             </dd>
           </div>
           <div class="reveal">
             <dt>Labels</dt>
-            <dd class="eyebrow">Brand guidelines</dd>
+            <dd class="type-label">Brand guidelines</dd>
             <dd>
-              Inter SemiBold (600), 0.8125&nbsp;rem, uppercase. Letter spacing +0.12&nbsp;em.
+              Inter Semibold (600), in sentence case, with no extra letter spacing. Use labels for
+              navigation, tags and short captions. Do not set a label in capitals.
             </dd>
           </div>
           <div class="reveal">
@@ -554,9 +576,9 @@ const downloads = [
           <div>
             <dt>In navigation</dt>
             <dd>
-              Ink, Medium (500), no underline, 44&nbsp;px high; mark the current page with{" "}
-              <code>aria-current</code>. On hover, a 2&nbsp;px brand green underline grows from the
-              centre, as wide as the text.
+              Ink, in the label style, no underline, 44&nbsp;px high; mark the current page
+              with <code>aria-current</code>. On hover, a 2&nbsp;px brand green underline grows
+              from the centre, as wide as the text.
             </dd>
           </div>
           <div>
@@ -587,7 +609,8 @@ const downloads = [
             <dt>Primary</dt>
             <dd>
               Ink fill, white label, SemiBold (600). Fully round, 3&nbsp;rem high or more. On hover,
-              a brand green shadow of 6&nbsp;px and a lift of 2&nbsp;px.
+              it lifts 2&nbsp;px over a hard brand green shadow of 6&nbsp;px, with no blur. On a
+              brand green surface, the shadow is white.
             </dd>
           </div>
           <div>
@@ -638,15 +661,18 @@ const downloads = [
         <dl class="rules">
           <div>
             <dt>Labels</dt>
-            <dd>A visible label above each field, SemiBold (600). Mark optional fields only.</dd>
+            <dd>A visible label above each field, ExtraBold (800). Mark optional fields only.</dd>
           </div>
           <div>
             <dt>Fields</dt>
-            <dd>White fill, a 1&nbsp;px border, round corners, 44&nbsp;px high or more.</dd>
+            <dd>White fill, a 2&nbsp;px ink border, square corners, 44&nbsp;px high or more.</dd>
           </div>
           <div>
             <dt>Choices</dt>
-            <dd>A checked choice has a deep green border and a mist fill.</dd>
+            <dd>
+              A 2&nbsp;px ink border and square corners. A checked choice has a deep green border, a
+              mist fill and a 3&nbsp;px ink shadow.
+            </dd>
           </div>
           <div>
             <dt>Errors</dt>
@@ -655,39 +681,116 @@ const downloads = [
         </dl>
       </div>
 
-      <h3 class="subhead reveal">Surfaces, icons and motion</h3>
+      <h3 class="subhead reveal">Cards and lines</h3>
       <div class="demo reveal">
-        <div class="card-sample">
-          <span>
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M12 4v11m-5-5 5 5 5-5M5 20h14"></path>
-            </svg>
-            Downloads
-          </span>
+        <div class="card-samples">
+          <div class="card-sample">
+            <p class="type-label">Step 01</p>
+            <p class="card-sample-title">Give a small amount each month</p>
+          </div>
+          <div class="card-sample card-sample-empty">
+            <p class="card-sample-title">You, or someone you know?</p>
+          </div>
         </div>
         <dl class="rules">
           <div>
             <dt>Cards</dt>
             <dd>
-              Put a light card on a ground of another tone: white on paper, or paper on white. Round
-              its corners, and give an item inside it a smaller radius.
+              Draw a card as a sticker: a four-corner shape with slightly uneven corners. Move each
+              corner 0–4&nbsp;px in. Give each card its own shape. Do not round the corners. Use
+              the card colour as its fill. On a home page, turn each card by up to 1.5° and set the
+              cards in a row at different heights, so that they do not make a grid.
             </dd>
           </div>
           <div>
-            <dt>Edges</dt>
+            <dt>Edge</dt>
             <dd>
-              Separate with space first. Where a line is necessary, draw 1&nbsp;px of ink at
-              10–15&nbsp;%. Cards have no drop shadow.
+              Give a card a solid ink edge of 3&nbsp;px. From 40&nbsp;rem wide, make it 4&nbsp;px.
+            </dd>
+          </div>
+          <div>
+            <dt>Shadows</dt>
+            <dd>
+              Put a hard ink shadow under a card, 6&nbsp;px right and down, with no blur. From
+              40&nbsp;rem wide, make it 12&nbsp;px. The shadow follows the shape of the card. Do
+              not use soft shadows.
+            </dd>
+          </div>
+          <div>
+            <dt>Lines</dt>
+            <dd>
+              Separate with space first. Between the rows of a list, draw a 3&nbsp;px solid ink
+              line. In a table, a line of 1&nbsp;px ink at 10–15&nbsp;% is enough.
+            </dd>
+          </div>
+          <div>
+            <dt>Images</dt>
+            <dd>
+              Give an image a 3&nbsp;px ink border and square corners. A small thumbnail can use
+              2&nbsp;px below 40&nbsp;rem wide.
+            </dd>
+          </div>
+          <div>
+            <dt>Placeholders</dt>
+            <dd>
+              Give an empty place, such as an open seat on a team, a 2&nbsp;px dashed border of ink
+              at 25&nbsp;%. Set its text in slate. It has no solid ink edge and no shadow.
+            </dd>
+          </div>
+        </dl>
+      </div>
+
+      <h3 class="subhead reveal">Icons, colour modes and motion</h3>
+      <div class="demo reveal">
+        <div class="icon-sample">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M12 4v11m-5-5 5 5 5-5M5 20h14"></path>
+          </svg>
+          <p class="card-sample-title">
+            Downloads<svg
+              class="burst"
+              viewBox="0 0 40 40"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="4"
+              stroke-linecap="round"
+              aria-hidden="true"
+            >
+              <path d="M4 12 15 4M6 20h16M4 28l11 8"></path>
+            </svg>
+          </p>
+        </div>
+        <dl class="rules">
+          <div>
+            <dt>Interface icons</dt>
+            <dd>
+              Draw Lucide shapes as thick lines on a 24&nbsp;px grid: a stroke of about 3&nbsp;px,
+              with round ends and joins. Keep the stroke at about 3&nbsp;px at every icon size.
+              Draw them in the colour of the text next to them. Each website or app draws its own
+              icons. This guide gives no interface icon files.
+            </dd>
+          </div>
+          <div>
+            <dt>Burst</dt>
+            <dd>
+              A burst is three short ink strokes. Put a burst after a main heading, such as a page
+              title. On a home page, give each section at least one burst. Put it after a heading or
+              at the corner of a group of cards. Then long text does not look the same from top to
+              bottom. A section with little text can have more bursts, at other places. After a
+              section heading or a bold line, the burst hangs past the end of the line, so that it
+              does not move a line break. When the screen is less than 40&nbsp;rem wide, hide the
+              bursts. When the screen is less than 64&nbsp;rem wide, hide the bursts at corners.
+              Hide each burst from screen readers.
             </dd>
           </div>
           <div>
@@ -698,10 +801,10 @@ const downloads = [
             </dd>
           </div>
           <div>
-            <dt>Interface icons</dt>
+            <dt>Forced colours</dt>
             <dd>
-              Lines on a 24&nbsp;px grid, a 2&nbsp;px stroke, round ends and joins, in the colour of
-              the text next to them.
+              In forced-colours mode, draw each edge, line and mark in the system text
+              colour, <code>CanvasText</code>. Turn off the shadows.
             </dd>
           </div>
           <div>

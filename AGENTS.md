@@ -16,7 +16,7 @@ The brand website, `src/pages/index.astro`, is the single source of truth for th
   - `.rules`: a term and one or two sentences. A list of 3, 4 or 6 items fills its rows. Put a list of another count in `.split`: its subhead beside a list of one column.
   - `.swatch`, `.pair`, `.download`, `.voice`, `.card-sample`: the patterns of their sections.
 - Line up content with the nav. It starts and ends on `--gutter`.
-- Put a card on the other light tone: paper on white, white on paper.
+- Fill a card with the card colour, as the Cards rule says.
 - Take every colour from a token, `var(--color-*)`. Add each text pair that the page shows to `scripts/colour.mjs`.
 - Keep the signature motion: the logo build in the hero, the section marks, the scroll reveal, the button lift, and the card lift when the pointer is on a link in the card. Put all motion under `prefers-reduced-motion: no-preference`. A hover takes 300 ms or less.
 - The page works without JavaScript.

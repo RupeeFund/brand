@@ -23,9 +23,8 @@ const PAIRS = [
   ["text", "error", "card"],
   ["text", "error", "paper"],
   ["graphic", "ink", "brand"],
-  ["graphic", "border", "white"],
-  ["graphic", "border", "card"],
-  ["graphic", "border", "paper"],
+  ["graphic", "ink", "white"],
+  ["graphic", "brand-fg", "brand-50"],
 ];
 
 function luminance(hex) {
